@@ -1,0 +1,68 @@
+# Binaries & Object files
+bin/
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+coverage.out
+coverage.html
+coverage/
+
+# Environments & Secrets
+.env
+.env.local
+.env.production
+*.pem
+*.key
+*.keystore
+
+# Node & Angular
+node_modules/
+.angular/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Flutter / Dart / Android
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+android/.gradle
+android/captures/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/GeneratedPluginRegistrant.java
+ios/.generated/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+*.apk
+*.aab
+
+# Docker / Volumes
+.docker/
+docker-data/
+pgdata/
+redisdata/
+
+# Logs & OS / Editor artifacts
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# SDD scratch
+.superpowers/
