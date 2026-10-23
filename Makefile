@@ -47,7 +47,7 @@ test-workers: ## Executa testes no pool de Scraping Workers (Node/TypeScript)
 
 test-web: ## Executa testes unitários no Frontend Web (Angular 18+)
 	@if [ -d "apps/web-client" ] && [ -f "apps/web-client/package.json" ]; then \
-		cd apps/web-client && npm test -- --watch=false --browsers=ChromeHeadless; \
+		cd apps/web-client && CHROME_BIN=$${CHROME_BIN:-/usr/bin/brave-browser} npm test; \
 	fi
 
 test-mobile: ## Executa testes unitários e de cobertura no Mobile App (Flutter)
