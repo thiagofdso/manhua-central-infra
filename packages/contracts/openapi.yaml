@@ -1,0 +1,632 @@
+openapi: 3.1.0
+info:
+  title: Manhua Manager Pro API
+  description: API Gateway transacional, proxy de streaming e serviços do ecossistema Manhua Manager Pro.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Servidor de desenvolvimento local
+  - url: https://api.manhuamanager.com
+    description: Servidor de produção cloud-native
+
+paths:
+  /healthz:
+    get:
+      summary: Health check da API
+      responses:
+        '200':
+          description: Serviço saudável
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /api/auth/register:
+    post:
+      summary: Cadastro tradicional com email e senha
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Usuário registrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Email já cadastrado
+
+  /api/auth/login:
+    post:
+      summary: Autenticação com email e senha
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Autenticado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Credenciais inválidas
+
+  /api/auth/google:
+    post:
+      summary: Autenticação unificada via Google (Web GIS e Android Play Store)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoogleAuthRequest'
+      responses:
+        '200':
+          description: Autenticado com sucesso via Google
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Token do Google inválido ou expirado
+
+  /api/auth/refresh:
+    post:
+      summary: Renovação do Access Token via Refresh Token
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Novo par de tokens gerado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Refresh token inválido ou revogado
+
+  /api/users/me:
+    delete:
+      summary: Exclusão definitiva de conta do usuário (Mandatório Google Play)
+      security:
+        - BearerAuth: []
+      responses:
+        '204':
+          description: Conta e todos os dados associados excluídos definitivamente
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/users/device-token:
+    post:
+      summary: Registro de token FCM para push notifications
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FCMTokenRequest'
+      responses:
+        '200':
+          description: Token registrado com sucesso
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/catalog:
+    get:
+      summary: Listagem e busca paginada no catálogo global de manhuas
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Lista paginada de obras do catálogo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CanonicalManhua'
+                  page:
+                    type: integer
+                  limit:
+                    type: integer
+                  total:
+                    type: integer
+
+  /api/catalog/{slug}:
+    get:
+      summary: Obter detalhes de uma obra do catálogo canônico
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalhes da obra canônica
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanonicalManhua'
+        '404':
+          description: Obra não encontrada
+
+  /api/catalog/{id}/vote:
+    post:
+      summary: Votar em uma obra do catálogo (score 1 a 10)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoteRequest'
+      responses:
+        '200':
+          description: Voto computado e média Bayesiana recalculada
+        '400':
+          description: Nota inválida (fora do intervalo 1-10)
+
+  /api/rankings/views:
+    get:
+      summary: Ranking dos mais acessados em tempo real (Redis ZSET)
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [daily, weekly, all_time]
+            default: daily
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Ranking por visualizações
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CanonicalManhua'
+
+  /api/rankings/top-rated:
+    get:
+      summary: Ranking das obras mais bem avaliadas (Média Bayesiana)
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Ranking por avaliação ponderada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CanonicalManhua'
+
+  /api/library:
+    get:
+      summary: Biblioteca pessoal do usuário (ordenada pela Regra de Ouro)
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Obras da biblioteca pessoal
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LibraryItem'
+    post:
+      summary: Adicionar obra canônica à biblioteca pessoal
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [canonicalId]
+              properties:
+                canonicalId:
+                  type: integer
+                currentChapter:
+                  type: integer
+                  default: 1
+                isFavorite:
+                  type: boolean
+                  default: false
+      responses:
+        '201':
+          description: Obra adicionada à biblioteca
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryItem'
+
+  /api/library/{id}:
+    patch:
+      summary: Atualizar progresso de leitura ou status de favorito
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LibraryUpdateRequest'
+      responses:
+        '200':
+          description: Item atualizado com promoção atômica ao topo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryItem'
+        '400':
+          description: Tentativa de avançar além de lastChapter
+    delete:
+      summary: Remover obra da biblioteca pessoal
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Removido com sucesso
+
+  /api/library/reorder:
+    put:
+      summary: Reordenar itens da biblioteca (autocorreção garantindo favoritos no topo)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderRequest'
+      responses:
+        '200':
+          description: Nova ordenação persistida
+
+  /api/reader/chapter-images:
+    get:
+      summary: Extrair lista de URLs de imagens do capítulo
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de imagens e metadados de navegação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChapterImagesResponse'
+
+  /api/reader/batch:
+    get:
+      summary: Metadados para download de lote de capítulos (máx 50 capítulos)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: canonical_id
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: start
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: end
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de capítulos do lote com imagens
+        '400':
+          description: Range superior a 50 capítulos ou end maior que lastChapter
+
+  /api/reader/proxy-image:
+    get:
+      summary: Proxy de imagens com streaming de zero-buffer e proteção Anti-SSRF
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Stream binário da imagem
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Domínio não autorizado na allowlist
+        '403':
+          description: Bloqueio SSRF (IP privado / loopback / cloud metadata)
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [email, password, displayName]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        displayName:
+          type: string
+          minLength: 2
+          maxLength: 100
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    GoogleAuthRequest:
+      type: object
+      required: [idToken]
+      properties:
+        idToken:
+          type: string
+
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        displayName:
+          type: string
+        avatarUrl:
+          type: string
+          nullable: true
+        authProvider:
+          type: string
+          enum: [email, google]
+        role:
+          type: string
+          enum: [admin, reader]
+
+    CanonicalManhua:
+      type: object
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        title:
+          type: string
+        alternativeTitles:
+          type: string
+          nullable: true
+        synopsis:
+          type: string
+          nullable: true
+        coverUrl:
+          type: string
+          nullable: true
+        primaryDomain:
+          type: string
+        urlTemplate:
+          type: string
+        lastChapter:
+          type: integer
+          nullable: true
+        updateDay:
+          type: integer
+          nullable: true
+        isHiatus:
+          type: boolean
+        bayesianRating:
+          type: number
+        totalVotes:
+          type: integer
+        totalViews:
+          type: integer
+
+    LibraryItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        canonicalManhuaId:
+          type: integer
+        currentChapter:
+          type: integer
+        isFavorite:
+          type: boolean
+        customOrder:
+          type: integer
+        updatedAt:
+          type: integer
+        manhua:
+          $ref: '#/components/schemas/CanonicalManhua'
+
+    LibraryUpdateRequest:
+      type: object
+      properties:
+        currentChapter:
+          type: integer
+        chapterDelta:
+          type: integer
+        isFavorite:
+          type: boolean
+
+    ReorderRequest:
+      type: object
+      required: [orderedIds]
+      properties:
+        orderedIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    VoteRequest:
+      type: object
+      required: [score]
+      properties:
+        score:
+          type: integer
+          minimum: 1
+          maximum: 10
+
+    FCMTokenRequest:
+      type: object
+      required: [token, platform]
+      properties:
+        token:
+          type: string
+        platform:
+          type: string
+          enum: [android, ios, web]
+
+    ChapterImagesResponse:
+      type: object
+      properties:
+        chapter:
+          type: number
+        images:
+          type: array
+          items:
+            type: string
+        nextChapter:
+          type: string
+          nullable: true
+        prevChapter:
+          type: string
+          nullable: true
+
+  responses:
+    Unauthorized:
+      description: Não autorizado ou token ausente/inválido
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+    BadRequest:
+      description: Requisição com parâmetros inválidos
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string

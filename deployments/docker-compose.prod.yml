@@ -1,0 +1,124 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-manhua_pro}
+      POSTGRES_USER: ${DB_USER:-manhua_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - internal_net
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2048M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-manhua_user} -d ${DB_NAME:-manhua_pro}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - internal_net
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  api-gateway:
+    build:
+      context: ../apps/api-gateway
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      ENV: production
+      PORT: 8080
+      DATABASE_URL: postgres://${DB_USER:-manhua_user}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-manhua_pro}?sslmode=disable
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/0
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: 15m
+      REFRESH_SECRET: ${REFRESH_SECRET}
+      REFRESH_EXPIRES_IN: 7d
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      R2_BUCKET_NAME: ${R2_BUCKET_NAME}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
+      R2_ENDPOINT: ${R2_ENDPOINT}
+      SCRAPER_WORKER_URL: scraping-workers:50051
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - internal_net
+      - public_net
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1024M
+    healthcheck:
+      test: ["CMD", "/manhua-api", "-healthcheck"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+  scraping-workers:
+    build:
+      context: ../apps/scraping-workers
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      PORT: 50051
+      MAX_CONCURRENT_BROWSERS: 5
+    networks:
+      - internal_net
+    deploy:
+      resources:
+        limits:
+          cpus: '3.0'
+          memory: 3072M
+
+  web-client:
+    build:
+      context: ../apps/web-client
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - api-gateway
+    networks:
+      - public_net
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+networks:
+  public_net:
+    driver: bridge
+  internal_net:
+    internal: true
+
+volumes:
+  pg_data:
+  redis_data:

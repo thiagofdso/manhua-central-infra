@@ -1,0 +1,99 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: manhua-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-manhua_pro}
+      POSTGRES_USER: ${DB_USER:-manhua_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-manhua_secure_password_change_me}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-manhua_user} -d ${DB_NAME:-manhua_pro}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - manhua_dev_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: manhua-redis-dev
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-redis_secure_password_change_me}"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data_dev:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_secure_password_change_me}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - manhua_dev_net
+
+  api-gateway:
+    build:
+      context: ../apps/api-gateway
+      dockerfile: Dockerfile
+    container_name: manhua-api-dev
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      ENV: development
+      PORT: 8080
+      DATABASE_URL: postgres://${DB_USER:-manhua_user}:${DB_PASSWORD:-manhua_secure_password_change_me}@postgres:5432/${DB_NAME:-manhua_pro}?sslmode=disable
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis_secure_password_change_me}@redis:6379/0
+      JWT_SECRET: ${JWT_SECRET:-super_secret_jwt_hmac_sha256_minimum_32_characters_key}
+      JWT_EXPIRES_IN: 15m
+      REFRESH_SECRET: ${REFRESH_SECRET:-super_secret_refresh_jwt_minimum_32_characters_key}
+      REFRESH_EXPIRES_IN: 7d
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      SCRAPER_WORKER_URL: scraping-workers:50051
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - manhua_dev_net
+
+  scraping-workers:
+    build:
+      context: ../apps/scraping-workers
+      dockerfile: Dockerfile
+    container_name: manhua-workers-dev
+    restart: unless-stopped
+    ports:
+      - "${SCRAPER_PORT:-50051}:50051"
+    environment:
+      PORT: 50051
+      MAX_CONCURRENT_BROWSERS: 3
+    networks:
+      - manhua_dev_net
+
+  web-client:
+    build:
+      context: ../apps/web-client
+      dockerfile: Dockerfile.dev
+    container_name: manhua-web-dev
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-4200}:4200"
+    depends_on:
+      - api-gateway
+    networks:
+      - manhua_dev_net
+
+volumes:
+  postgres_data_dev:
+  redis_data_dev:
+
+networks:
+  manhua_dev_net:
+    driver: bridge
