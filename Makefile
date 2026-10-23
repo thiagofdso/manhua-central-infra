@@ -37,7 +37,7 @@ test: test-backend test-workers test-web ## Executa todos os testes automatizado
 
 test-backend: ## Executa testes unitários e de integração no Backend Go com verificação de race conditions
 	@if [ -d "apps/api-gateway" ]; then \
-		cd apps/api-gateway && go test -race -covermode=atomic ./...; \
+		cd apps/api-gateway && go test -race ./...; \
 	fi
 
 test-workers: ## Executa testes no pool de Scraping Workers (Node/TypeScript)
