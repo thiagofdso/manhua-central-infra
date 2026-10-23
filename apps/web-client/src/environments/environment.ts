@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
-  apiUrl: '/api',
+  production: false,
+  apiUrl: typeof window !== 'undefined' && window.location.port === '4200' ? 'http://localhost:8080/api' : '/api',
   googleClientId: ''
 };

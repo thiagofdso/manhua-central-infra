@@ -151,7 +151,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         this.loading.set(false);
-        this.errorMessage.set(err.error?.error || 'Email ou senha inválidos');
+        const msg = err.error?.error;
+        if (msg === 'invalid email or password') {
+          this.errorMessage.set('Email ou senha inválidos');
+        } else {
+          this.errorMessage.set(msg || 'Email ou senha inválidos');
+        }
       }
     });
   }
