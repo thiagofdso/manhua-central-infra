@@ -31,8 +31,15 @@ test.describe('End-to-End Authentication and Account Deletion Flow', () => {
     await page.waitForURL('**/login', { timeout: 10000 });
 
     // 3. Login
-    await page.fill('input[name="email"]', testUser.email);
-    await page.fill('input[name="password"]', testUser.password);
+    const emailInput = page.locator('input[name="email"]');
+    await emailInput.waitFor({ state: 'visible' });
+    await emailInput.fill(testUser.email);
+    await expect(emailInput).toHaveValue(testUser.email);
+
+    const passwordInput = page.locator('input[name="password"]');
+    await passwordInput.fill(testUser.password);
+    await expect(passwordInput).toHaveValue(testUser.password);
+
     await page.click('button[type="submit"]');
 
     // Should redirect to /profile
