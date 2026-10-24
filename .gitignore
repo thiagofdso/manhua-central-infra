@@ -1,7 +1,30 @@
-# Binaries & Object files
+# ==========================================
+# Manhua Manager Pro / Central — Git Ignore
+# ==========================================
+
+# ------------------------------------------
+# Environments, Credentials & Secrets
+# ------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.keystore
+client_secret*.json
+*secret*.json
+service-account*.json
+firebase-adminsdk*.json
+google-services.json
+GoogleService-Info.plist
+
+# ------------------------------------------
+# Binaries, Build Outputs & Coverage
+# ------------------------------------------
 bin/
 dist/
 build/
+out/
 *.exe
 *.dll
 *.so
@@ -10,18 +33,16 @@ build/
 coverage.out
 coverage.html
 coverage/
+*.coverage
 
-# Environments & Secrets
-.env
-.env.local
-.env.production
-*.pem
-*.key
-*.keystore
-client_secret_*.json
-*secret*.json
+# ------------------------------------------
+# Go (Golang)
+# ------------------------------------------
+vendor/
 
-# Node & Angular
+# ------------------------------------------
+# Node.js, Angular & Testing
+# ------------------------------------------
 node_modules/
 .angular/
 npm-debug.log*
@@ -30,8 +51,12 @@ yarn-error.log*
 .pnpm-debug.log*
 test-results/
 playwright-report/
+blob-report/
+playwright/.cache/
 
-# Flutter / Dart / Android
+# ------------------------------------------
+# Flutter, Dart, Android & iOS
+# ------------------------------------------
 .dart_tool/
 .packages
 .pub-cache/
@@ -53,21 +78,35 @@ ios/Flutter/flutter_assets/
 *.apk
 *.aab
 
-# Docker / Volumes
+# ------------------------------------------
+# Docker, Databases & Persistent Volumes
+# ------------------------------------------
 .docker/
 docker-data/
 pgdata/
 redisdata/
+*.rdb
+dump.rdb
 
-# Logs & OS / Editor artifacts
-*.log
+# ------------------------------------------
+# Operating System & IDE Artifacts
+# ------------------------------------------
 .DS_Store
 Thumbs.db
+Desktop.ini
 .idea/
 .vscode/
 .codex/
+.impeccable/
 *.swp
 *.swo
+*~
+*.bak
+*.tmp
+*.log
 
-# SDD scratch
+# ------------------------------------------
+# Assistant / Local Scratch
+# ------------------------------------------
 .superpowers/
+scratch/
