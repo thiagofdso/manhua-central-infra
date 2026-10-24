@@ -347,11 +347,11 @@
 - Create: `apps/scraping-workers/src/extractors/manhuaus.ts`
 - Test: `apps/scraping-workers/test/extractors.test.ts`
 
-- [ ] **Step 1: Escrever teste com fixtures gravadas para resolução de VRF no MangaFire e bypass Cloudflare no ManhuaUS**
-- [ ] **Step 2: Implementar daemon Puppeteer reutilizando processo Chromium com contextos isolados e `dumb-init`**
-- [ ] **Step 3: Implementar API interna de extração em `POST /extract-chapter`**
-- [ ] **Step 4: Validar testes do worker pool**
-- [ ] **Step 5: Commit:** `feat(workers): implement persistent puppeteer browser pool and specialized extractors`
+- [x] **Step 1: Escrever teste com fixtures gravadas para resolução de VRF no MangaFire e bypass Cloudflare no ManhuaUS**
+- [x] **Step 2: Implementar daemon Puppeteer reutilizando processo Chromium com contextos isolados e `dumb-init`**
+- [x] **Step 3: Implementar API interna de extração em `POST /extract-chapter`**
+- [x] **Step 4: Validar testes do worker pool**
+- [x] **Step 5: Commit:** `feat(workers): implement persistent puppeteer browser pool and specialized extractors`
 
 ### Subtarefa 7.2: Backend Core & Web — Agendador 23:50 e Central de Notificações
 **Files:**
@@ -360,18 +360,18 @@
 - Create: `apps/web-client/src/app/features/notifications/notification-bell.component.ts`
 - Test: `apps/api-gateway/internal/scheduler/scheduler_test.go`
 
-- [ ] **Step 1: Escrever teste de execução cron das 23:50 com lock transacional no PostgreSQL**
-- [ ] **Step 2: Implementar detecção de novos episódios e criação de notificações com descarte ao ler**
-- [ ] **Step 3: Implementar sino de notificações no cabeçalho do Angular com badge numérico em tempo real**
-- [ ] **Step 4: Executar testes backend e frontend**
-- [ ] **Step 5: Commit:** `feat(notifications): implement 23:50 release scheduler and angular notification bell`
+- [x] **Step 1: Escrever teste de execução cron das 23:50 com lock transacional no PostgreSQL**
+- [x] **Step 2: Implementar detecção de novos episódios e criação de notificações com descarte ao ler**
+- [x] **Step 3: Implementar sino de notificações no cabeçalho do Angular com badge numérico em tempo real**
+- [x] **Step 4: Executar testes backend e frontend**
+- [x] **Step 5: Commit:** `feat(notifications): implement 23:50 release scheduler and angular notification bell`
 
 ### Subtarefa 7.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/notifications.spec.ts`
 
-- [ ] **Step 1: Disparar verificação forçada (`POST /api/routine/run-check`) $\rightarrow$ checar badge de notificação no Angular $\rightarrow$ clicar na notificação e abrir o novo capítulo**
-- [ ] **Step 2: Commit:** `test(e2e): add scheduled releases check and notification dismissal test`
+- [x] **Step 1: Disparar verificação forçada (`POST /api/routine/run-check`) $\rightarrow$ checar badge de notificação no Angular $\rightarrow$ clicar na notificação e abrir o novo capítulo**
+- [x] **Step 2: Commit:** `test(e2e): add scheduled releases check and notification dismissal test`
 
 ---
 
