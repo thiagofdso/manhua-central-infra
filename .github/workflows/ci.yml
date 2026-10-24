@@ -1,0 +1,66 @@
+name: CI — Build & Testes Unitários
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+  push:
+    branches:
+      - main
+      - master
+      - desenv
+
+jobs:
+  backend:
+    name: Backend Core (Go)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.x'
+          cache-dependency-path: apps/api-gateway/go.sum
+
+      - name: Download Go Dependencies
+        working-directory: apps/api-gateway
+        run: go mod download
+
+      - name: Run Backend Unit & Integration Tests
+        working-directory: apps/api-gateway
+        run: go test -v -race ./...
+
+      - name: Build Go API Gateway Binary
+        working-directory: apps/api-gateway
+        run: CGO_ENABLED=0 go build -v -o /tmp/manhua-api ./cmd/server
+
+  frontend:
+    name: Frontend Web (Angular 18)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: apps/web-client/package-lock.json
+
+      - name: Install Frontend Dependencies
+        working-directory: apps/web-client
+        run: npm ci
+
+      - name: Run Angular Unit Tests (Headless Chrome)
+        working-directory: apps/web-client
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: npm test
+
+      - name: Build Angular Production Application
+        working-directory: apps/web-client
+        run: npm run build -- --configuration=production

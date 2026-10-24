@@ -168,3 +168,16 @@ Nenhuma Sprint pode ser considerada concluída sem que todas as suas camadas sat
 3. **Frontend Web:** Telas e componentes Angular desenvolvidos, integrados via HTTP e validados com testes unitários;
 4. **Verificação Ponta a Ponta:** Teste E2E ou manual demonstrando a jornada completa funcionando entre o navegador e o banco de dados;
 5. **Governança:** ADRs atualizadas e código commitado seguindo Conventional Commits.
+
+---
+
+## 8. Diretrizes de Design, UI/UX e Frontend (Impeccable)
+
+As decisões de interface, ergonomia de uso e padrões visuais do frontend web e mobile são governadas por [`PRODUCT.md`](PRODUCT.md) e [`DESIGN.md`](DESIGN.md) (via skill Impeccable):
+
+* **Registro de Produto:** `product` (Leitor Webtoon contínuo, biblioteca pessoal, catálogo comunitário e rankings).
+* **Tom & Personalidade:** Vibrante, Imersivo e Confiável (*Content First*, modo escuro profundo, badges energéticos com alto contraste).
+* **Anti-Padrões Proibidos (AI Slop / Bad Practices):** Poluição visual de agregadores piratas, frieza monocromática de dashboards corporativos, bordas laterais coloridas decorativas em cards (`border-left`), textos em gradiente artificial, glassmorphism gratuito e grades monótonas de cards idênticos sem hierarquia.
+* **Acessibilidade (A11y):** Padrão WCAG 2.1 nível AA, contraste $\ge 4.5:1$ no texto, suporte estrito a `prefers-reduced-motion: reduce`, atalhos de teclado no leitor e áreas de toque confortáveis ($\ge 44\times 44\text{px}$).
+* **Ferramental e Comandos:** Use `/impeccable document` para extrair/atualizar o `DESIGN.md`, `/impeccable craft <feature>` para construir novos módulos de UI, `/impeccable critique` / `/impeccable audit` para revisão de qualidade, e `/impeccable live` para prototipagem interativa no navegador.
+
