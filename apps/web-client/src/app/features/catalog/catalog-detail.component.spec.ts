@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, ActivatedRoute } from '@angular/router';
+import { signal } from '@angular/core';
 import { of } from 'rxjs';
 import { CatalogDetailComponent } from './catalog-detail.component';
 import { CatalogService } from '../../core/services/catalog.service';
+import { AuthService } from '../../core/auth/auth.service';
 import { CanonicalManhua } from '../../core/models/catalog.model';
 
 describe('CatalogDetailComponent', () => {
@@ -42,7 +44,8 @@ describe('CatalogDetailComponent', () => {
             snapshot: { paramMap: { get: (key: string) => 'overgeared' } }
           }
         },
-        { provide: CatalogService, useValue: mockCatalogService }
+        { provide: CatalogService, useValue: mockCatalogService },
+        { provide: AuthService, useValue: { isAuthenticated: () => false, currentUser: signal(null) } }
       ]
     }).compileComponents();
 

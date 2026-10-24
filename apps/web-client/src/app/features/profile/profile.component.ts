@@ -1,12 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   template: `
     <div class="min-h-screen bg-[#090d16] text-slate-100 flex flex-col">
       <!-- App Shell Header -->
@@ -27,14 +27,17 @@ import { AuthService } from '../../core/auth/auth.service';
             </span>
           </div>
 
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-4">
+            <a routerLink="/catalog" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+              Catálogo
+            </a>
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               Sincronizado
             </span>
             <button
               (click)="logout()"
-              class="text-xs font-medium text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition-colors"
+              class="text-xs font-medium text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition-colors min-h-[36px]"
             >
               Sair
             </button>

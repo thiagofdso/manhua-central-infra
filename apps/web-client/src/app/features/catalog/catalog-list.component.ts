@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CatalogService } from '../../core/services/catalog.service';
+import { AuthService } from '../../core/auth/auth.service';
 import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model';
 
 @Component({
@@ -10,26 +11,39 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
-    <div class="min-h-screen bg-slate-950 text-slate-100 pb-16">
-      <!-- Navbar / Top Header -->
-      <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-30">
+    <div class="min-h-screen bg-dark-950 text-slate-100 pb-16">
+      <!-- App Shell Header -->
+      <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div class="flex items-center space-x-3">
-            <span class="text-2xl font-black bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent tracking-tight">
-              MANHUA CENTRAL
-            </span>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">
-              Pro v3.0
+            <div class="w-9 h-9 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center shadow-inner">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                <path d="M8 7h8"/>
+                <path d="M8 11h6"/>
+              </svg>
+            </div>
+            <span class="text-base font-bold text-white tracking-tight flex items-center gap-1.5">
+              Manhua Manager
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30">PRO</span>
             </span>
           </div>
 
           <nav class="flex items-center space-x-4">
-            <a routerLink="/catalog" routerLinkActive="text-blue-400 font-semibold" class="text-sm text-slate-300 hover:text-white transition">
+            <a routerLink="/catalog" routerLinkActive="text-brand-400 font-semibold" class="text-sm text-slate-300 hover:text-white transition-colors">
               Catálogo
             </a>
-            <a routerLink="/profile" routerLinkActive="text-blue-400 font-semibold" class="text-sm text-slate-300 hover:text-white transition">
-              Perfil
-            </a>
+            <ng-container *ngIf="isAuthenticated(); else loginLink">
+              <a routerLink="/profile" routerLinkActive="text-brand-400 font-semibold" class="text-sm text-slate-300 hover:text-white transition-colors">
+                Perfil
+              </a>
+            </ng-container>
+            <ng-template #loginLink>
+              <a routerLink="/login" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white transition-colors min-h-[36px] flex items-center">
+                Entrar
+              </a>
+            </ng-template>
           </nav>
         </div>
       </header>
@@ -41,8 +55,8 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
           <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Catálogo Canônico Global
           </h1>
-          <p class="mt-2 text-slate-400 text-sm sm:text-base max-w-2xl">
-            Explore manhuas, manhwas e webtoons sincronizados diretamente com as fontes mais rápidas.
+          <p class="mt-2 text-slate-400 text-sm sm:text-base max-w-2xl leading-relaxed">
+            Explore manhuas, manhwas e mangás sincronizados em tempo real com fontes de extração rápida.
           </p>
         </div>
 
@@ -60,8 +74,8 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
                 type="text"
                 [ngModel]="searchQuery()"
                 (ngModelChange)="onSearchInput($event)"
-                placeholder="Pesquisar por título, título alternativo..."
-                class="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm"
+                placeholder="Pesquisar por título ou título alternativo..."
+                class="w-full pl-10 pr-4 py-2.5 bg-dark-850 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-colors text-sm min-h-[44px]"
               />
             </div>
 
@@ -73,7 +87,7 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
                 [ngModel]="selectedSort()"
                 (ngModelChange)="onSortChange($event)"
                 aria-label="Ordenar por"
-                class="bg-slate-950 border border-slate-700 text-slate-200 text-sm rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                class="bg-dark-850 border border-slate-800 text-slate-200 text-sm rounded-xl px-3 py-2.5 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-colors cursor-pointer"
               >
                 <option value="updated">Mais Recentes</option>
                 <option value="views">Mais Visualizados</option>
@@ -83,30 +97,30 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
             </div>
           </div>
 
-          <!-- Domain Filter Badges -->
+          <!-- Domain Filter Badges (Pills) -->
           <div class="mt-4 pt-4 border-t border-slate-800/80 flex items-center gap-2 overflow-x-auto pb-1">
-            <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider mr-1">Fonte:</span>
+            <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider mr-1">Fonte:</span>
             <button
               type="button"
               (click)="onDomainChange('')"
-              [class]="selectedDomain() === '' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'"
-              class="px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer"
+              [class]="selectedDomain() === '' ? 'bg-brand-600 text-white shadow-md shadow-brand-500/20' : 'bg-dark-850 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800'"
+              class="px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer whitespace-nowrap min-h-[32px]"
             >
               Todos ({{ total() }})
             </button>
             <button
               type="button"
               (click)="onDomainChange('asurascans.com')"
-              [class]="selectedDomain() === 'asurascans.com' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'"
-              class="px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer"
+              [class]="selectedDomain() === 'asurascans.com' ? 'bg-brand-600 text-white shadow-md shadow-brand-500/20' : 'bg-dark-850 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800'"
+              class="px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer whitespace-nowrap min-h-[32px]"
             >
               Asura Scans
             </button>
             <button
               type="button"
               (click)="onDomainChange('ravenscans.org')"
-              [class]="selectedDomain() === 'ravenscans.org' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'"
-              class="px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer"
+              [class]="selectedDomain() === 'ravenscans.org' ? 'bg-brand-600 text-white shadow-md shadow-brand-500/20' : 'bg-dark-850 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800'"
+              class="px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer whitespace-nowrap min-h-[32px]"
             >
               RavenScans
             </button>
@@ -115,14 +129,14 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
 
         <!-- Loading State -->
         <div *ngIf="loading()" class="flex flex-col items-center justify-center py-20 text-slate-400">
-          <div class="w-10 h-10 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mb-4"></div>
+          <div class="w-10 h-10 border-4 border-brand-500/20 border-t-brand-500 rounded-full animate-spin mb-4"></div>
           <p class="text-sm font-medium">Carregando catálogo...</p>
         </div>
 
         <!-- Error State -->
-        <div *ngIf="error()" class="p-4 bg-red-950/50 border border-red-800/80 rounded-xl text-red-200 text-sm mb-6 flex items-center justify-between">
+        <div *ngIf="error()" class="p-4 bg-red-950/50 border border-red-800/80 rounded-2xl text-red-200 text-sm mb-6 flex items-center justify-between">
           <span>{{ error() }}</span>
-          <button (click)="loadCatalog()" class="text-xs bg-red-800/60 hover:bg-red-700 px-3 py-1 rounded-md font-semibold transition">
+          <button (click)="loadCatalog()" class="text-xs bg-red-800/60 hover:bg-red-700 px-3 py-1.5 rounded-xl font-semibold transition-colors min-h-[36px]">
             Tentar novamente
           </button>
         </div>
@@ -131,34 +145,34 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
         <div *ngIf="!loading() && manhuas().length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
           <div
             *ngFor="let item of manhuas()"
-            class="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 hover:shadow-2xl hover:shadow-blue-500/5 transition flex flex-col"
+            class="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 hover:shadow-2xl hover:shadow-brand-500/5 transition-all flex flex-col"
           >
             <!-- Poster / Cover Image -->
-            <div class="relative aspect-[3/4] bg-slate-950 overflow-hidden">
+            <div class="relative aspect-[3/4] bg-dark-950 overflow-hidden">
               <img
                 *ngIf="item.coverUrl"
                 [src]="item.coverUrl"
                 [alt]="item.title"
                 loading="lazy"
                 referrerpolicy="no-referrer"
-                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
-              <div *ngIf="!item.coverUrl" class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 text-slate-500 text-sm font-semibold">
+              <div *ngIf="!item.coverUrl" class="w-full h-full flex items-center justify-center bg-dark-850 text-slate-500 text-sm font-semibold">
                 Sem Capa
               </div>
 
-              <!-- Badges Overlay -->
+              <!-- Badges Overlay (Pills) -->
               <div class="absolute top-2 left-2 flex flex-col gap-1 items-start">
-                <span *ngIf="item.isHiatus" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md bg-rose-500/90 text-white shadow">
+                <span *ngIf="item.isHiatus" class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-rose-500 text-white shadow-md">
                   Hiatus
                 </span>
-                <span *ngIf="item.lastChapter" class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-blue-600/90 text-white shadow">
+                <span *ngIf="item.lastChapter" class="px-2.5 py-0.5 text-[10px] font-bold rounded-full bg-brand-600 text-white shadow-md">
                   Cap. {{ item.lastChapter }}
                 </span>
               </div>
 
-              <!-- Rating Badge -->
-              <div *ngIf="item.bayesianRating > 0" class="absolute bottom-2 right-2 px-2 py-0.5 text-[11px] font-extrabold rounded-md bg-slate-950/80 backdrop-blur text-amber-400 border border-amber-400/30 flex items-center gap-1 shadow">
+              <!-- Rating Badge (Pill) -->
+              <div *ngIf="item.bayesianRating > 0" class="absolute bottom-2 right-2 px-2.5 py-0.5 text-[11px] font-extrabold rounded-full bg-dark-950/90 text-amber-400 border border-amber-400/30 flex items-center gap-1 shadow-md">
                 <span>★</span> {{ item.bayesianRating.toFixed(1) }}
               </div>
             </div>
@@ -166,10 +180,10 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
             <!-- Content Area -->
             <div class="p-3.5 sm:p-4 flex flex-col flex-1 justify-between">
               <div>
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <span class="text-[10px] font-bold text-brand-400 uppercase tracking-wider">
                   {{ item.primaryDomain }}
                 </span>
-                <h3 class="text-sm font-bold text-white group-hover:text-blue-400 transition line-clamp-2 mt-0.5">
+                <h3 class="text-sm font-bold text-white group-hover:text-brand-300 transition-colors line-clamp-2 mt-0.5">
                   {{ item.title }}
                 </h3>
                 <p *ngIf="item.alternativeTitles" class="text-xs text-slate-400 line-clamp-1 mt-1">
@@ -177,10 +191,10 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
                 </p>
               </div>
 
-              <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center gap-2">
+              <div class="mt-4 pt-3 border-t border-slate-800 flex items-center gap-2">
                 <a
                   [routerLink]="['/catalog', item.slug]"
-                  class="flex-1 text-center py-1.5 px-2 bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white rounded-lg text-xs font-semibold transition"
+                  class="flex-1 text-center py-2 px-3 bg-dark-850 hover:bg-brand-600 text-slate-200 hover:text-white rounded-xl text-xs font-semibold transition-colors min-h-[38px] flex items-center justify-center border border-slate-800"
                 >
                   Detalhes
                 </a>
@@ -191,7 +205,7 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
 
         <!-- Empty State -->
         <div *ngIf="!loading() && manhuas().length === 0" class="text-center py-16 bg-slate-900 border border-slate-800 rounded-2xl p-8">
-          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center text-slate-500 text-2xl">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-dark-850 border border-slate-800 flex items-center justify-center text-slate-400 text-2xl">
             🔍
           </div>
           <h3 class="text-lg font-bold text-white">Nenhuma obra encontrada</h3>
@@ -201,7 +215,7 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
           <button
             type="button"
             (click)="resetFilters()"
-            class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold transition cursor-pointer"
+            class="mt-5 px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold transition-colors cursor-pointer min-h-[44px]"
           >
             Limpar Filtros
           </button>
@@ -218,7 +232,7 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
               type="button"
               [disabled]="page() <= 1"
               (click)="onPageChange(page() - 1)"
-              class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-lg text-xs font-medium transition cursor-pointer"
+              class="px-4 py-2 bg-dark-850 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl text-xs font-medium transition-colors border border-slate-800 cursor-pointer min-h-[40px]"
             >
               Anterior
             </button>
@@ -226,7 +240,7 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
               type="button"
               [disabled]="page() >= totalPages()"
               (click)="onPageChange(page() + 1)"
-              class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-lg text-xs font-medium transition cursor-pointer"
+              class="px-4 py-2 bg-dark-850 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl text-xs font-medium transition-colors border border-slate-800 cursor-pointer min-h-[40px]"
             >
               Próximo
             </button>
@@ -238,6 +252,7 @@ import { CanonicalManhua, CatalogFilter } from '../../core/models/catalog.model'
 })
 export class CatalogListComponent implements OnInit {
   private catalogService = inject(CatalogService);
+  private authService = inject(AuthService);
 
   manhuas = signal<CanonicalManhua[]>([]);
   total = signal<number>(0);
@@ -249,6 +264,10 @@ export class CatalogListComponent implements OnInit {
   selectedSort = signal<string>('updated');
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
 
   ngOnInit(): void {
     this.loadCatalog();
@@ -274,7 +293,7 @@ export class CatalogListComponent implements OnInit {
         this.totalPages.set(res.totalPages);
         this.loading.set(false);
       },
-      error: (err) => {
+      error: () => {
         this.error.set('Falha ao carregar catálogo. Por favor, verifique a conexão com o servidor.');
         this.loading.set(false);
       }

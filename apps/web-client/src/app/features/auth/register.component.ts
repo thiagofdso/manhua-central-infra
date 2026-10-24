@@ -9,7 +9,15 @@ import { AuthService } from '../../core/auth/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
-    <div class="min-h-screen flex items-center justify-center p-4 bg-[#090d16]">
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 bg-[#090d16]">
+      <div class="max-w-md w-full mb-4">
+        <a routerLink="/catalog" class="inline-flex items-center text-xs font-semibold text-slate-400 hover:text-white transition-colors">
+          <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Voltar ao Catálogo
+        </a>
+      </div>
       <div class="max-w-md w-full bg-slate-900/90 border border-slate-800 rounded-2xl p-8 shadow-2xl">
         <div class="text-center mb-8">
           <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-brand-500/10 border border-brand-500/20 text-brand-400 mb-3 shadow-inner">
