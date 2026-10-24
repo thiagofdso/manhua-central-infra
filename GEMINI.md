@@ -72,6 +72,9 @@ O projeto é estruturado em um **Monorepositório** e **100% containerizado**:
   cd apps/mobile-app && flutter build appbundle --release
   ```
 
+### 2.4 Testes Móveis Remotos sem IP Público (Bypass de CGNAT)
+Para testar os serviços locais no celular físico (Android/iOS) em redes móveis (4G/5G) sem IP público dedicado, consulte o guia detalhado em [`docs/remote-testing-guide.md`](docs/remote-testing-guide.md). A solução padrão recomendada é o **Tailscale** (via rede privada P2P ou **Tailscale Funnel** com HTTPS automático do Let's Encrypt).
+
 ---
 
 ## 3. Invariantes e Regras de Negócio Invioláveis
