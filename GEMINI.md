@@ -159,14 +159,23 @@ Todo código adicionado ou refatorado deve respeitar estritamente as regras de n
 
 ---
 
-## 6. Padrões de Código e Esteira CI/CD
+## 6. Padrões de Código, SonarQube Cloud e Esteiras CI/CD
 
-1. **Desenvolvimento Orientado a Testes (TDD):**
+1. **Desenvolvimento Orientado a Testes (TDD) e Cobertura:**
    * Novas funcionalidades e correções de bugs devem começar pela escrita de testes que falham antes do código de implementação.
    * Manter cobertura mínima: $\ge 85\%$ no backend Go, $\ge 80\%$ no Angular e $\ge 80\%$ no Flutter.
-2. **Containerização Distroless (ADR-0010):**
+2. **Qualidade Contínua com SonarQube Cloud (SonarCloud):**
+   * Todos os 5 repositórios remotos são públicos e vinculados à organização **`thiagofdso`** no SonarCloud.
+   * O secret `SONAR_TOKEN` está configurado em cada repositório GitHub para autenticação automática nas actions.
+   * Cada repositório mantém seu arquivo canônico `sonar-project.properties` na raiz, coletando métricas estáticas e ingestão de relatórios de cobertura:
+     - `manhua-central-api`: `coverage.out` (Go test com atomic mode).
+     - `manhua-central-web`: `coverage/lcov.info` (Karma Headless com flag `--code-coverage`).
+     - `manhua-central-mobile`: `coverage/lcov.info` (Flutter test com flag `--coverage`).
+     - `manhua-central-workers`: Análise estática de TypeScript e linting.
+     - `manhua-central-infra`: Validação estática de contratos OpenAPI e orquestração.
+3. **Containerização Distroless (ADR-0010):**
    * O backend Go em produção deve utilizar sempre a imagem base `gcr.io/distroless/static-debian12:nonroot`.
-3. **Sincronização de Documentação:**
+4. **Sincronização de Documentação:**
    * Toda mudança que altere requisitos de negócio, fluxos de usuário ou arquitetura técnica deve refletir em [`docs/PRD.md`](docs/PRD.md), [`docs/specs.md`](docs/specs.md) e [`docs/plan.md`](docs/plan.md).
 
 ---
