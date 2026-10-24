@@ -245,43 +245,49 @@
 
 ## Sprint 5: Votações Comunitárias e Rankings em Tempo Real (Ponta a Ponta)
 
-> **Requisitos:** RN-07, RN-08, ADR-0007  
+> **Requisitos:** RN-07 (1 a 5 estrelas), RN-08, ADR-0007  
 > **User Stories:** US-PRO-COMM-01, US-PRO-COMM-02, US-PRO-COMM-03  
-> **Objetivo:** Implementar o sistema comunitário de avaliação (1-10 estrelas com fórmula Bayesiana) e leaderboards dinâmicos em tempo real no Redis.
+> **Objetivo:** Implementar o sistema comunitário de avaliação (1-5 estrelas com fórmula Bayesiana) e leaderboards dinâmicos em tempo real no Redis.
 
 ### Subtarefa 5.1: Backend Core — Motor de Rankings Redis ZSET e Média Bayesiana
 **Files:**
+- Create: `apps/api-gateway/migrations/000002_adjust_rating_to_5_stars.up.sql`
+- Create: `apps/api-gateway/migrations/000002_adjust_rating_to_5_stars.down.sql`
 - Create: `apps/api-gateway/internal/ranking/calculator.go`
-- Create: `apps/api-gateway/internal/ranking/service.go`
+- Create: `apps/api-gateway/internal/repository/rating_repo.go`
+- Create: `apps/api-gateway/internal/service/ranking_service.go`
 - Create: `apps/api-gateway/internal/handlers/ranking_handler.go`
 - Test: `apps/api-gateway/internal/ranking/ranking_test.go`
+- Test: `apps/api-gateway/internal/handlers/ranking_handler_test.go`
 
-- [ ] **Step 1: Escrever teste unitário para cálculo da Média Bayesiana ($WR$)**
-- [ ] **Step 2: Implementar registro de votos no PostgreSQL com constraint `UNIQUE(user_id, canonical_manhua_id)`**
-- [ ] **Step 3: Implementar comandos Redis Sorted Sets (`ZINCRBY`, `ZADD`, `ZREVRANGE`) e rota de ranking híbrida em 2 etapas**
-- [ ] **Step 4: Implementar worker em background para sincronização periódica de views a cada 15 min e warm-up**
-- [ ] **Step 5: Executar testes e validar aprovação**
-- [ ] **Step 6: Commit:** `feat(ranking): implement bayesian rating calculations and redis zset leaderboards`
+- [x] **Step 1: Escrever teste unitário para cálculo da Média Bayesiana ($WR$ na escala 1-5 estrelas)**
+- [x] **Step 2: Implementar registro de votos no PostgreSQL com constraint `CHECK (score >= 1 AND score <= 5)` e `UNIQUE(user_id, canonical_manhua_id)`**
+- [x] **Step 3: Implementar comandos Redis Sorted Sets (`ZINCRBY`, `ZADD`, `ZREVRANGE`) e rota de ranking híbrida em 2 etapas**
+- [x] **Step 4: Implementar worker em background para sincronização periódica de views a cada 15 min e warm-up**
+- [x] **Step 5: Executar testes e validar aprovação**
+- [x] **Step 6: Commit:** `feat(ranking): implement 5-star bayesian rating calculations and redis zset leaderboards`
 
 ### Subtarefa 5.2: Frontend Web — Telas de Rankings e Avaliação Interativa (Angular)
 **Files:**
-- Create: `apps/web-client/src/app/features/rankings/rankings.service.ts`
+- Create: `apps/web-client/src/app/core/models/ranking.model.ts`
+- Create: `apps/web-client/src/app/core/services/ranking.service.ts`
 - Create: `apps/web-client/src/app/features/rankings/rankings.component.ts`
 - Create: `apps/web-client/src/app/shared/components/star-rating.component.ts`
+- Test: `apps/web-client/src/app/core/services/ranking.service.spec.ts`
 - Test: `apps/web-client/src/app/features/rankings/rankings.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste de componente para alternância de abas "Hoje", "Semana", "Top Geral" e "Melhor Votados"**
-- [ ] **Step 2: Implementar componente reutilizável de votação de 1 a 10 estrelas com feedback imediato**
-- [ ] **Step 3: Renderizar cards de ranking com medalhas (1º, 2º, 3º lugar) e botão rápido de adicionar à biblioteca**
-- [ ] **Step 4: Validar testes do Angular**
-- [ ] **Step 5: Commit:** `feat(web): implement community rankings views and interactive star rating component`
+- [x] **Step 1: Escrever teste de componente para alternância de abas "Hoje", "Semana", "Top Geral" e "Melhor Votados"**
+- [x] **Step 2: Implementar componente reutilizável de votação de 1 a 5 estrelas com feedback imediato**
+- [x] **Step 3: Renderizar cards de ranking com medalhas (1º, 2º, 3º lugar) e botão rápido de adicionar à biblioteca**
+- [x] **Step 4: Validar testes do Angular**
+- [x] **Step 5: Commit:** `feat(web): implement community rankings views and interactive 5-star rating component`
 
 ### Subtarefa 5.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/rankings.spec.ts`
 
-- [ ] **Step 1: Ler capítulo $\rightarrow$ checar incremento no ranking de mais lidos $\rightarrow$ votar com 10 estrelas $\rightarrow$ verificar atualização no ranking de melhor votados**
-- [ ] **Step 2: Commit:** `test(e2e): add views tracking and bayesian rating leaderboard test`
+- [x] **Step 1: Ler capítulo $\rightarrow$ checar incremento no ranking de mais lidos $\rightarrow$ votar com 5 estrelas $\rightarrow$ verificar atualização no ranking de melhor votados**
+- [x] **Step 2: Commit:** `test(e2e): add views tracking and 5-star bayesian rating leaderboard test`
 
 ---
 

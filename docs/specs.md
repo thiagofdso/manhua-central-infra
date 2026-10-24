@@ -101,16 +101,16 @@ A análise do código-fonte legado e os novos requisitos comerciais consolidam o
 
 ### 2.7 Regra R-07: Sistema de Votação e Média Ponderada Bayesiana
 * **RN-07.1 (Voto Único por Usuário):**
-  * Cada usuário autenticado pode registrar 1 voto de 1 a 10 estrelas por obra.
+  * Cada usuário autenticado pode registrar 1 voto de 1 a 5 estrelas por obra.
   * O usuário pode alterar seu voto a qualquer momento, atualizando o registro anterior sem duplicar votos na contagem geral.
 * **RN-07.2 (Cálculo Bayesiano do Score Público):**
-  * Para evitar que uma obra com apenas 1 voto de nota 10 assuma o topo do ranking, o score público ($WR$) é calculado pela fórmula da média ponderada Bayesiana (estilo IMDb / MyAnimeList):
+  * Para evitar que uma obra com apenas 1 voto de nota 5 assuma o topo do ranking, o score público ($WR$) é calculado pela fórmula da média ponderada Bayesiana (estilo IMDb / MyAnimeList) na escala de 1.00 a 5.00:
     $$WR = \frac{v}{v + m} \cdot R + \frac{m}{v + m} \cdot C$$
     Onde:
-    * $R$: Média aritmética dos votos da obra;
+    * $R$: Média aritmética dos votos da obra (1.0 a 5.0);
     * $v$: Número de avaliações recebidas pela obra;
     * $m$: Número mínimo de votos exigido para figurar no ranking principal ($m = 10$);
-    * $C$: Média global de todos os votos de todas as obras da plataforma.
+    * $C$: Média global de todos os votos de todas as obras da plataforma (baseline prior $C = 3.5$).
 
 ### 2.8 Regra R-08: Rastreamento de Acessos e Motor de Rankings em Tempo Real (Redis)
 * **RN-08.1 (Registro de Visualizações com Proteção contra Falsificação):**
