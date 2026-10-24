@@ -126,12 +126,12 @@
 - Create: `apps/api-gateway/internal/handlers/catalog_handler.go`
 - Test: `apps/api-gateway/internal/providers/providers_test.go`
 
-- [ ] **Step 1: Escrever teste unitário de parsing HTML contra fixtures gravadas de AsuraScans e RavenScans**
-- [ ] **Step 2: Executar testes de providers e validar falha**
-- [ ] **Step 3: Implementar extratores de catálogo e capítulos em Go com regex otimizada**
-- [ ] **Step 4: Implementar endpoints `GET /api/catalog` e `GET /api/catalog/{slug}` com paginação**
-- [ ] **Step 5: Executar testes e validar aprovação**
-- [ ] **Step 6: Commit:** `feat(catalog): implement canonical repository and fast-path go extractors`
+- [x] **Step 1: Escrever teste unitário de parsing HTML contra fixtures gravadas de AsuraScans e RavenScans**
+- [x] **Step 2: Executar testes de providers e validar falha**
+- [x] **Step 3: Implementar extratores de catálogo e capítulos em Go com regex otimizada**
+- [x] **Step 4: Implementar endpoints `GET /api/catalog` e `GET /api/catalog/{slug}` com paginação**
+- [x] **Step 5: Executar testes e validar aprovação**
+- [x] **Step 6: Commit:** `feat(catalog): implement canonical repository and fast-path go extractors`
 
 ### Subtarefa 2.2: Frontend Web — Tela de Catálogo Global e Busca (Angular)
 **Files:**
@@ -140,18 +140,18 @@
 - Create: `apps/web-client/src/app/features/catalog/catalog-detail.component.ts`
 - Test: `apps/web-client/src/app/features/catalog/catalog-list.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste de componente para paginação reativa e busca instantânea via Signals**
-- [ ] **Step 2: Implementar cards de obras com imagem de capa, títulos alternativos, último capítulo e status**
-- [ ] **Step 3: Implementar página de detalhes da obra com sinopse e lista de capítulos**
-- [ ] **Step 4: Validar testes do Angular**
-- [ ] **Step 5: Commit:** `feat(web): implement global catalog browsing and search views in angular`
+- [x] **Step 1: Escrever teste de componente para paginação reativa e busca instantânea via Signals**
+- [x] **Step 2: Implementar cards de obras com imagem de capa, títulos alternativos, último capítulo e status**
+- [x] **Step 3: Implementar página de detalhes da obra com sinopse e lista de capítulos**
+- [x] **Step 4: Validar testes do Angular**
+- [x] **Step 5: Commit:** `feat(web): implement global catalog browsing and search views in angular`
 
 ### Subtarefa 2.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/catalog.spec.ts`
 
-- [ ] **Step 1: Testar fluxo de pesquisa textual $\rightarrow$ carregamento de detalhes da obra $\rightarrow$ visualização de lista de episódios**
-- [ ] **Step 2: Commit:** `test(e2e): add catalog browsing and detail page integration test`
+- [x] **Step 1: Testar fluxo de pesquisa textual $\rightarrow$ carregamento de detalhes da obra $\rightarrow$ visualização de lista de episódios**
+- [x] **Step 2: Commit:** `test(e2e): add catalog browsing and detail page integration test`
 
 ---
 
