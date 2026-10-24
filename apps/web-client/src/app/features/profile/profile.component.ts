@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
@@ -14,15 +14,18 @@ import { AuthService } from '../../core/auth/auth.service';
         <!-- Header Profile -->
         <div class="flex items-center space-x-6 pb-8 border-b border-slate-800">
           <div class="relative">
-            <!-- Foto real do Google ou Iniciais locais em gradiente (sem delay de rede) -->
+            <!-- Foto real do Google (com referrerpolicy no-referrer obrigatório para CDN da Google) -->
             <img
-              *ngIf="user()?.avatarUrl"
+              *ngIf="user()?.avatarUrl && !imgError()"
               [src]="user()?.avatarUrl"
               [alt]="user()?.displayName"
+              referrerpolicy="no-referrer"
+              crossorigin="anonymous"
+              (error)="imgError.set(true)"
               class="w-20 h-20 rounded-full object-cover border-2 border-violet-500 shadow-md shadow-violet-500/20"
             />
             <div
-              *ngIf="!user()?.avatarUrl"
+              *ngIf="!user()?.avatarUrl || imgError()"
               class="w-20 h-20 rounded-full bg-gradient-to-br from-violet-600 to-purple-800 border-2 border-violet-500 flex items-center justify-center text-white text-2xl font-bold shadow-md shadow-violet-500/20 select-none"
             >
               {{ getInitials(user()?.displayName) }}
@@ -130,13 +133,20 @@ import { AuthService } from '../../core/auth/auth.service';
     </div>
   `
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
 
   user = this.authService.currentUser;
   showDeleteModal = signal(false);
   deleting = signal(false);
+  imgError = signal(false);
+
+  ngOnInit(): void {
+    this.authService.fetchCurrentUser().subscribe({
+      error: () => {}
+    });
+  }
 
   getInitials(name?: string): string {
     if (!name) return 'U';

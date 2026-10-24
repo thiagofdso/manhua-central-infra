@@ -99,4 +99,15 @@ describe('AuthService', () => {
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });
+
+  it('should fetch current user and update signal', () => {
+    service.fetchCurrentUser().subscribe(user => {
+      expect(user.email).toBe('reader@example.com');
+      expect(service.currentUser()?.email).toBe('reader@example.com');
+    });
+
+    const req = httpMock.expectOne(`${environment.apiUrl}/users/me`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUser);
+  });
 });

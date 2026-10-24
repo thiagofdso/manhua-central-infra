@@ -65,6 +65,7 @@ redisdata/
 Thumbs.db
 .idea/
 .vscode/
+.codex/
 *.swp
 *.swo
 
