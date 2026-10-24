@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/thiagofdso/manhua-manager-pro/apps/api-gateway/internal/domain"
 	"github.com/thiagofdso/manhua-manager-pro/apps/api-gateway/internal/repository"
+	"github.com/thiagofdso/manhua-manager-pro/apps/api-gateway/migrations"
 )
 
 func TestPostgresCanonicalRepository(t *testing.T) {
@@ -18,6 +19,9 @@ func TestPostgresCanonicalRepository(t *testing.T) {
 	pgDB, err := repository.NewPostgresDB(connStr)
 	require.NoError(t, err)
 	defer pgDB.Close()
+
+	err = pgDB.RunMigrationsFS(migrations.FS, ".")
+	require.NoError(t, err)
 
 	ctx := context.Background()
 	repo := repository.NewPostgresCanonicalRepository(pgDB.DB)
