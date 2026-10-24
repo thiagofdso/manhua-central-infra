@@ -303,11 +303,11 @@
 - Create: `apps/api-gateway/internal/handlers/batch_handler.go`
 - Test: `apps/api-gateway/internal/service/batch_test.go`
 
-- [ ] **Step 1: Escrever teste de validação de teto de `lastChapter` e limite máximo de 50 capítulos por lote**
-- [ ] **Step 2: Implementar extração concorrente com `sync.WaitGroup` e semáforo limitador de conexões**
-- [ ] **Step 3: Tratar falhas parciais por capítulo sem quebrar a resposta JSON do lote**
-- [ ] **Step 4: Executar testes de batch e validar aprovação**
-- [ ] **Step 5: Commit:** `feat(batch): implement bounded concurrent batch chapter extraction with ceiling checks`
+- [x] **Step 1: Escrever teste de validação de teto de `lastChapter` e limite máximo de 50 capítulos por lote**
+- [x] **Step 2: Implementar extração concorrente com `sync.WaitGroup` e semáforo limitador de conexões**
+- [x] **Step 3: Tratar falhas parciais por capítulo sem quebrar a resposta JSON do lote**
+- [x] **Step 4: Executar testes de batch e validar aprovação**
+- [x] **Step 5: Commit:** `feat(batch): implement bounded concurrent batch chapter extraction with ceiling checks`
 
 ### Subtarefa 6.2: Frontend Web — Painel de Background Downloads e IndexedDB (Angular)
 **Files:**
@@ -316,19 +316,19 @@
 - Create: `apps/web-client/src/app/features/downloads/active-downloads-drawer.component.ts`
 - Test: `apps/web-client/src/app/core/services/indexed-db.service.spec.ts`
 
-- [ ] **Step 1: Escrever teste unitário para gravação e recuperação de Blobs binários de imagem no IndexedDB**
-- [ ] **Step 2: Implementar gerenciador de fila com cancelamento atômico via `AbortController`**
-- [ ] **Step 3: Implementar verificação offline-first no leitor: consultar IndexedDB antes de qualquer requisição externa**
-- [ ] **Step 4: Adicionar painel de gerenciamento de disco (exclusão manual por capítulo/obra, sem limpeza automática)**
-- [ ] **Step 5: Validar testes do Angular**
-- [ ] **Step 6: Commit:** `feat(web): implement indexeddb offline storage and background download manager`
+- [x] **Step 1: Escrever teste unitário para gravação e recuperação de Blobs binários de imagem no IndexedDB**
+- [x] **Step 2: Implementar gerenciador de fila com cancelamento atômico via `AbortController`**
+- [x] **Step 3: Implementar verificação offline-first no leitor: consultar IndexedDB antes de qualquer requisição externa**
+- [x] **Step 4: Adicionar painel de gerenciamento de disco (exclusão manual por capítulo/obra, sem limpeza automática)**
+- [x] **Step 5: Validar testes do Angular**
+- [x] **Step 6: Commit:** `feat(web): implement indexeddb offline storage and background download manager`
 
 ### Subtarefa 6.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/offline-downloads.spec.ts`
 
-- [ ] **Step 1: Disparar download de lote $\rightarrow$ verificar progresso $\rightarrow$ cortar conexão de rede (modo offline) $\rightarrow$ abrir leitor e verificar renderização a partir do IndexedDB**
-- [ ] **Step 2: Commit:** `test(e2e): add offline downloads and network-disconnected reading test`
+- [x] **Step 1: Disparar download de lote $\rightarrow$ verificar progresso $\rightarrow$ cortar conexão de rede (modo offline) $\rightarrow$ abrir leitor e verificar renderização a partir do IndexedDB**
+- [x] **Step 2: Commit:** `test(e2e): add offline downloads and network-disconnected reading test`
 
 ---
 
