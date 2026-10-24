@@ -18,11 +18,32 @@ Este documento define as diretrizes operacionais, mandamentos arquiteturais e pa
 
 ---
 
-## 2. Comandos Operacionais e Ambiente de Desenvolvimento
+## 2. Comandos Operacionais, Polyrepo Workspace e Governança Técnica
 
-O projeto é estruturado em um **Monorepositório** e **100% containerizado**:
+O projeto é estruturado no modelo **Workspace Polyrepo com Orquestrador Local** (ADR-0012). Localmente, o desenvolvedor opera uma única árvore unificada sob a pasta `apps/` orquestrada pelo Docker Compose e Makefile. No GitHub, cada serviço reside em um **repositório remoto independente** com prefixo `manhua-central-*`, branches `main` e `desenv`, e esteiras CI/CD desacopladas:
 
-### 2.1 Gestão de Ambientes via Docker Compose
+### 2.1 Repositórios Remotos do Ecossistema
+1. **Orquestrador & Infraestrutura:** [`thiagofdso/manhua-central-infra`](https://github.com/thiagofdso/manhua-central-infra) (Docker Compose, `docs/`, `Makefile`, contratos OpenAPI).
+2. **Backend Core (Go):** [`thiagofdso/manhua-central-api`](https://github.com/thiagofdso/manhua-central-api) (`apps/api-gateway`).
+3. **Frontend Web (Angular 18):** [`thiagofdso/manhua-central-web`](https://github.com/thiagofdso/manhua-central-web) (`apps/web-client`).
+4. **Scraping Workers (Node/Puppeteer):** [`thiagofdso/manhua-central-workers`](https://github.com/thiagofdso/manhua-central-workers) (`apps/scraping-workers`).
+5. **Mobile App (Flutter):** [`thiagofdso/manhua-central-mobile`](https://github.com/thiagofdso/manhua-central-mobile) (`apps/mobile-app`).
+
+### 2.2 Gestão do Workspace Polyrepo via Makefile
+* **Clonar Todos os Repositórios Filhos para `apps/`:**
+  ```bash
+  make clone-all
+  ```
+* **Atualizar Todos os Repositórios Filhos com `git pull`:**
+  ```bash
+  make pull-all
+  ```
+* **Inspecionar Status de Mudanças em Todos os Repositórios:**
+  ```bash
+  make status-all
+  ```
+
+### 2.3 Gestão de Ambientes via Docker Compose
 * **Iniciar Ambiente Local de Desenvolvimento:**
   ```bash
   make dev
@@ -44,25 +65,33 @@ O projeto é estruturado em um **Monorepositório** e **100% containerizado**:
   # ou: docker compose -f deployments/docker-compose.yml down -v
   ```
 
-### 2.2 Suítes de Testes por Camada
+### 2.4 Suítes de Testes por Camada
+* **Executar Todos os Testes Locais:**
+  ```bash
+  make test
+  ```
 * **Backend Core (Go):**
   ```bash
-  cd apps/api-gateway && go test -race -covermode=atomic ./...
+  make test-backend
+  # ou: cd apps/api-gateway && go test -race -covermode=atomic ./...
   ```
 * **Scraping Worker Pool (Node.js/TypeScript):**
   ```bash
-  cd apps/scraping-workers && npm test
+  make test-workers
+  # ou: cd apps/scraping-workers && npm test
   ```
 * **Frontend Web (Angular 18+):**
   ```bash
-  cd apps/web-client && npm test -- --watch=false --browsers=ChromeHeadless
+  make test-web
+  # ou: cd apps/web-client && npm test -- --watch=false --browsers=ChromeHeadless
   ```
 * **Mobile App (Flutter):**
   ```bash
-  cd apps/mobile-app && flutter test --coverage
+  make test-mobile
+  # ou: cd apps/mobile-app && flutter test --coverage
   ```
 
-### 2.3 Compilação e Empacotamento
+### 2.5 Compilação e Empacotamento
 * **Gerar Build de Produção da Web:**
   ```bash
   cd apps/web-client && npm run build -- --configuration=production
@@ -72,7 +101,7 @@ O projeto é estruturado em um **Monorepositório** e **100% containerizado**:
   cd apps/mobile-app && flutter build appbundle --release
   ```
 
-### 2.4 Testes Móveis Remotos sem IP Público (Bypass de CGNAT)
+### 2.6 Testes Móveis Remotos sem IP Público (Bypass de CGNAT)
 Para testar os serviços locais no celular físico (Android/iOS) em redes móveis (4G/5G) sem IP público dedicado, consulte o guia detalhado em [`docs/remote-testing-guide.md`](docs/remote-testing-guide.md). A solução padrão recomendada é o **Tailscale** (via rede privada P2P ou **Tailscale Funnel** com HTTPS automático do Let's Encrypt).
 
 ---

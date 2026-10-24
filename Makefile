@@ -1,7 +1,38 @@
-.PHONY: all dev prod down clean test test-backend test-workers test-web test-mobile dev-db lint help
+.PHONY: all dev prod down clean test test-backend test-workers test-web test-mobile dev-db lint help clone-all pull-all status-all
 
 # Default target
 all: help
+
+## ----------------------------------------------------------------------
+## Gestão do Workspace Polyrepo
+## ----------------------------------------------------------------------
+
+clone-all: ## Clona todos os repositórios remotos para dentro de apps/
+	@mkdir -p apps
+	@if [ ! -d "apps/api-gateway/.git" ]; then git clone git@github.com:thiagofdso/manhua-central-api.git apps/api-gateway; fi
+	@if [ ! -d "apps/web-client/.git" ]; then git clone git@github.com:thiagofdso/manhua-central-web.git apps/web-client; fi
+	@if [ ! -d "apps/scraping-workers/.git" ]; then git clone git@github.com:thiagofdso/manhua-central-workers.git apps/scraping-workers; fi
+	@if [ ! -d "apps/mobile-app/.git" ]; then git clone git@github.com:thiagofdso/manhua-central-mobile.git apps/mobile-app; fi
+
+pull-all: ## Atualiza todos os repositórios filhos com git pull
+	@echo "===> Atualizando API Gateway..."
+	@cd apps/api-gateway && git pull
+	@echo "===> Atualizando Web Client..."
+	@cd apps/web-client && git pull
+	@echo "===> Atualizando Scraping Workers..."
+	@cd apps/scraping-workers && git pull
+	@echo "===> Atualizando Mobile App..."
+	@cd apps/mobile-app && git pull
+
+status-all: ## Exibe o status do Git de cada repositório
+	@echo "================== API Gateway =================="
+	@cd apps/api-gateway && git status -s
+	@echo "================== Web Client ==================="
+	@cd apps/web-client && git status -s
+	@echo "================ Scraping Workers ==============="
+	@cd apps/scraping-workers && git status -s
+	@echo "================== Mobile App ==================="
+	@cd apps/mobile-app && git status -s
 
 ## ----------------------------------------------------------------------
 ## Ambientes e Orquestração Docker Compose
@@ -69,6 +100,6 @@ lint: ## Executa verificações estáticas de código (Linters)
 ## ----------------------------------------------------------------------
 
 help: ## Exibe esta mensagem de ajuda com os comandos disponíveis
-	@echo "Manhua Manager Pro — Automação de Comandos Operacionais"
-	@echo "--------------------------------------------------------"
+	@echo "Manhua Central — Automação de Comandos Operacionais"
+	@echo "----------------------------------------------------"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-18s\033[0m %s\n", $$1, $$2}'
