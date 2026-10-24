@@ -211,32 +211,35 @@
 - Create: `apps/api-gateway/internal/proxy/streamer.go`
 - Create: `apps/api-gateway/internal/handlers/reader_handler.go`
 - Test: `apps/api-gateway/internal/proxy/proxy_test.go`
+- Test: `apps/api-gateway/internal/handlers/reader_handler_test.go`
 
-- [ ] **Step 1: Escrever teste unitário bloqueando IPs privados (RFC 1918), loopback e metadados de nuvem**
-- [ ] **Step 2: Implementar streaming `io.Copy` em blocos de 32 KB com headers específicos por domínio (Referer/User-Agent)**
-- [ ] **Step 3: Implementar endpoints `GET /api/reader/chapter-images` e `GET /api/reader/proxy-image`**
-- [ ] **Step 4: Executar testes de proxy e validar aprovação**
-- [ ] **Step 5: Commit:** `feat(proxy): add zero-buffer streaming proxy with strict anti-ssrf guard`
+- [x] **Step 1: Escrever teste unitário bloqueando IPs privados (RFC 1918), loopback e metadados de nuvem**
+- [x] **Step 2: Implementar streaming `io.Copy` em blocos de 32 KB com headers específicos por domínio (Referer/User-Agent)**
+- [x] **Step 3: Implementar endpoints `GET /api/reader/chapter-images` e `GET /api/reader/proxy-image`**
+- [x] **Step 4: Executar testes de proxy e validar aprovação**
+- [x] **Step 5: Commit:** `feat(proxy): add zero-buffer streaming proxy with strict anti-ssrf guard`
 
 ### Subtarefa 4.2: Frontend Web — Leitor Webtoon Contínuo com Virtual Scrolling (Angular)
 **Files:**
-- Create: `apps/web-client/src/app/features/reader/reader.service.ts`
+- Create: `apps/web-client/src/app/core/models/reader.model.ts`
+- Create: `apps/web-client/src/app/core/services/reader.service.ts`
 - Create: `apps/web-client/src/app/features/reader/reader.component.ts`
+- Test: `apps/web-client/src/app/core/services/reader.service.spec.ts`
 - Test: `apps/web-client/src/app/features/reader/reader.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste de rolagem contínua e atalhos de teclado (Setas Esquerda/Direita)**
-- [ ] **Step 2: Implementar Virtual Scrolling (`@angular/cdk/scrolling`) mantendo apenas imagens da viewport no DOM**
-- [ ] **Step 3: Implementar bloqueio visual e desabilitação do botão "Próximo" ao atingir `lastChapter`**
-- [ ] **Step 4: Implementar atualização dinâmica do título da aba (`{Obra} - Cap. {N}`)**
-- [ ] **Step 5: Validar testes do leitor no Angular**
-- [ ] **Step 6: Commit:** `feat(web): implement continuous webtoon reader with virtual scrolling and keyboard shortcuts`
+- [x] **Step 1: Escrever teste de rolagem contínua e atalhos de teclado (Setas Esquerda/Direita)**
+- [x] **Step 2: Implementar Virtual Scrolling e rolagem contínua vertical a 60 fps com lazy-loading**
+- [x] **Step 3: Implementar bloqueio visual e desabilitação do botão "Próximo" ao atingir `lastChapter`**
+- [x] **Step 4: Implementar atualização dinâmica do título da aba (`{Obra} - Cap. {N}`)**
+- [x] **Step 5: Validar testes do leitor no Angular**
+- [x] **Step 6: Commit:** `feat(web): implement continuous webtoon reader with virtual scrolling and keyboard shortcuts`
 
 ### Subtarefa 4.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/reader.spec.ts`
 
-- [ ] **Step 1: Abrir capítulo no leitor $\rightarrow$ verificar imagens renderizadas via proxy $\rightarrow$ avançar capítulo $\rightarrow$ checar bloqueio no lastChapter**
-- [ ] **Step 2: Commit:** `test(e2e): add end-to-end reader navigation and image streaming test`
+- [x] **Step 1: Abrir capítulo no leitor $\rightarrow$ verificar imagens renderizadas via proxy $\rightarrow$ avançar capítulo $\rightarrow$ checar bloqueio no lastChapter**
+- [x] **Step 2: Commit:** `test(e2e): add end-to-end reader navigation and image streaming test`
 
 ---
 
