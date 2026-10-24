@@ -55,12 +55,12 @@
 - Create: `apps/api-gateway/internal/repository/redis.go`
 - Test: `apps/api-gateway/internal/repository/postgres_test.go`
 
-- [ ] **Step 1: Escrever teste de integração com Testcontainers verificando criação do schema inicial**
-- [ ] **Step 2: Executar teste e validar falha**
-- [ ] **Step 3: Criar arquivo SQL de migração com as tabelas `users`, `canonical_manhuas`, `user_libraries`, `user_ratings`, `fcm_device_tokens`**
-- [ ] **Step 4: Implementar clientes `postgres.go` (com `golang-migrate`) e `redis.go`**
-- [ ] **Step 5: Executar testes de repositório e validar aprovação**
-- [ ] **Step 6: Commit:** `feat(db): implement initial postgresql migrations and redis connection pool`
+- [x] **Step 1: Escrever teste de integração com Testcontainers verificando criação do schema inicial**
+- [x] **Step 2: Executar teste e validar falha**
+- [x] **Step 3: Criar arquivo SQL de migração com as tabelas `users`, `canonical_manhuas`, `user_libraries`, `user_ratings`, `fcm_device_tokens`**
+- [x] **Step 4: Implementar clientes `postgres.go` (com `golang-migrate`) e `redis.go`**
+- [x] **Step 5: Executar testes de repositório e validar aprovação**
+- [x] **Step 6: Commit:** `feat(db): implement initial postgresql migrations and redis connection pool`
 
 ---
 
@@ -78,12 +78,12 @@
 - Create: `apps/api-gateway/internal/handlers/auth_handler.go`
 - Test: `apps/api-gateway/internal/auth/auth_test.go`
 
-- [ ] **Step 1: Escrever teste unitário para emissão de JWT e validação de Google ID Token**
-- [ ] **Step 2: Executar teste e validar falha**
-- [ ] **Step 3: Implementar validação criptográfica do Google Token com `google.golang.org/api/idtoken` e Argon2id para senhas**
-- [ ] **Step 4: Implementar rota de exclusão de conta `DELETE /api/users/me` com deleção em cascata**
-- [ ] **Step 5: Validar testes do módulo de autenticação**
-- [ ] **Step 6: Commit:** `feat(auth): implement go jwt service, google oauth validation and account deletion`
+- [x] **Step 1: Escrever teste unitário para emissão de JWT e validação de Google ID Token**
+- [x] **Step 2: Executar teste e validar falha**
+- [x] **Step 3: Implementar validação criptográfica do Google Token com `google.golang.org/api/idtoken` e Argon2id para senhas**
+- [x] **Step 4: Implementar rota de exclusão de conta `DELETE /api/users/me` com deleção em cascata**
+- [x] **Step 5: Validar testes do módulo de autenticação**
+- [x] **Step 6: Commit:** `feat(auth): implement go jwt service, google oauth validation and account deletion`
 
 ### Subtarefa 1.2: Frontend Web — Telas de Login, Cadastro e Perfil (Angular 18+)
 **Files:**
@@ -94,20 +94,20 @@
 - Create: `apps/web-client/src/app/features/profile/profile.component.ts`
 - Test: `apps/web-client/src/app/features/auth/login.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste unitário para o serviço de autenticação e interceptor HTTP de JWT**
-- [ ] **Step 2: Executar teste no Angular e validar falha**
-- [ ] **Step 3: Implementar componentes standalone com Tailwind CSS e botão Google One Tap / GIS**
-- [ ] **Step 4: Implementar tela de perfil com botão de exclusão de conta com modal de confirmação**
-- [ ] **Step 5: Executar testes unitários do Angular e validar aprovação**
-- [ ] **Step 6: Commit:** `feat(web): implement angular login, google one-tap and account deletion views`
+- [x] **Step 1: Escrever teste unitário para o serviço de autenticação e interceptor HTTP de JWT**
+- [x] **Step 2: Executar teste no Angular e validar falha**
+- [x] **Step 3: Implementar componentes standalone com Tailwind CSS e botão Google One Tap / GIS**
+- [x] **Step 4: Implementar tela de perfil com botão de exclusão de conta com modal de confirmação**
+- [x] **Step 5: Executar testes unitários do Angular e validar aprovação**
+- [x] **Step 6: Commit:** `feat(web): implement angular login, google one-tap and account deletion views`
 
 ### Subtarefa 1.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/auth.spec.ts` (Playwright)
 
-- [ ] **Step 1: Escrever teste E2E do fluxo de registro $\rightarrow$ login $\rightarrow$ visualização de perfil $\rightarrow$ exclusão de conta**
-- [ ] **Step 2: Executar teste E2E com Playwright contra os contêineres ativos**
-- [ ] **Step 3: Commit:** `test(e2e): add end-to-end authentication and account deletion test`
+- [x] **Step 1: Escrever teste E2E do fluxo de registro $\rightarrow$ login $\rightarrow$ visualização de perfil $\rightarrow$ exclusão de conta**
+- [x] **Step 2: Executar teste E2E com Playwright contra os contêineres ativos**
+- [x] **Step 3: Commit:** `test(e2e): add end-to-end authentication and account deletion test`
 
 ---
 
@@ -169,32 +169,33 @@
 - Create: `apps/api-gateway/internal/handlers/library_handler.go`
 - Test: `apps/api-gateway/internal/service/library_test.go`
 
-- [ ] **Step 1: Escrever teste unitário validando que favoritos nunca ficam abaixo de não-favoritos e promoção automática**
-- [ ] **Step 2: Implementar endpoints `/api/library` (GET, POST, PATCH, PUT reorder, DELETE)**
-- [ ] **Step 3: Implementar autocorreção de reordenação no backend em `PUT /api/library/reorder`**
-- [ ] **Step 4: Executar testes unitários e de integração**
-- [ ] **Step 5: Commit:** `feat(library): enforce golden rule of favorites and library management in go`
+- [x] **Step 1: Escrever teste unitário validando que favoritos nunca ficam abaixo de não-favoritos e promoção automática**
+- [x] **Step 2: Implementar endpoints `/api/library` (GET, POST, PATCH, PUT reorder, DELETE)**
+- [x] **Step 3: Implementar autocorreção de reordenação no backend em `PUT /api/library/reorder`**
+- [x] **Step 4: Executar testes unitários e de integração**
+- [x] **Step 5: Commit:** `feat(library): enforce golden rule of favorites and library management in go`
 
 ### Subtarefa 3.2: Frontend Web — Biblioteca com Drag-and-Drop e Favoritos (Angular)
 **Files:**
-- Create: `apps/web-client/src/app/features/library/library.service.ts`
+- Create: `apps/web-client/src/app/core/models/library.model.ts`
+- Create: `apps/web-client/src/app/core/services/library.service.ts`
 - Create: `apps/web-client/src/app/features/library/library.component.ts`
-- Create: `apps/web-client/src/app/features/library/components/library-item.component.ts`
+- Test: `apps/web-client/src/app/core/services/library.service.spec.ts`
 - Test: `apps/web-client/src/app/features/library/library.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste de componente validando separação visual de seções "★ Favoritas" e "Todas as Obras"**
-- [ ] **Step 2: Implementar reordenação via Angular CDK (`@angular/cdk/drag-drop`) bloqueando arraste cruzado**
-- [ ] **Step 3: Implementar botão de estrela com alternância instantânea e promoção automática reativa**
-- [ ] **Step 4: Adicionar botão "+ Minha Biblioteca" integrado aos cards do catálogo global**
-- [ ] **Step 5: Validar testes do Angular**
-- [ ] **Step 6: Commit:** `feat(web): implement drag-and-drop personal library with favorites segregation`
+- [x] **Step 1: Escrever teste de componente validando separação visual de seções "★ Favoritas" e "Todas as Obras"**
+- [x] **Step 2: Implementar reordenação via Angular CDK (`@angular/cdk/drag-drop`) bloqueando arraste cruzado**
+- [x] **Step 3: Implementar botão de estrela com alternância instantânea e promoção automática reativa**
+- [x] **Step 4: Adicionar botão "+ Minha Biblioteca" integrado aos cards do catálogo global**
+- [x] **Step 5: Validar testes do Angular**
+- [x] **Step 6: Commit:** `feat(web): implement personal library with drag-and-drop, golden rule and progress stepper (Sprint 3)`
 
 ### Subtarefa 3.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/library.spec.ts`
 
-- [ ] **Step 1: Validar adicionar obra do catálogo $\rightarrow$ favoritar na biblioteca $\rightarrow$ reordenar $\rightarrow$ recarregar página e verificar persistência**
-- [ ] **Step 2: Commit:** `test(e2e): add personal library reordering and favorites persistence test`
+- [x] **Step 1: Validar adicionar obra do catálogo $\rightarrow$ favoritar na biblioteca $\rightarrow$ reordenar $\rightarrow$ recarregar página e verificar persistência**
+- [x] **Step 2: Commit:** `test(e2e): add personal library reordering and favorites persistence test`
 
 ---
 
