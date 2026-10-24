@@ -18,6 +18,8 @@ coverage/
 *.pem
 *.key
 *.keystore
+client_secret_*.json
+*secret*.json
 
 # Node & Angular
 node_modules/

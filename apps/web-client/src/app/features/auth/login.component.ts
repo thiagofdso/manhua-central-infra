@@ -101,22 +101,39 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   initGoogleAuth(): void {
-    if (typeof google !== 'undefined' && google?.accounts?.id && environment.googleClientId) {
-      google.accounts.id.initialize({
-        client_id: environment.googleClientId,
-        callback: (response: any) => this.handleGoogleCredential(response)
-      });
-
-      const btnContainer = document.getElementById('googleBtn');
-      if (btnContainer) {
-        google.accounts.id.renderButton(btnContainer, {
-          theme: 'filled_black',
-          size: 'large',
-          width: 380,
-          text: 'signin_with',
-          shape: 'pill'
+    const setupGoogle = () => {
+      if (typeof google !== 'undefined' && google?.accounts?.id && environment.googleClientId) {
+        google.accounts.id.initialize({
+          client_id: environment.googleClientId,
+          callback: (response: any) => this.handleGoogleCredential(response)
         });
+
+        const btnContainer = document.getElementById('googleBtn');
+        if (btnContainer) {
+          google.accounts.id.renderButton(btnContainer, {
+            theme: 'filled_black',
+            size: 'large',
+            width: 380,
+            text: 'signin_with',
+            shape: 'pill'
+          });
+        }
       }
+    };
+
+    if (typeof google === 'undefined' || !google?.accounts?.id) {
+      let attempts = 0;
+      const interval = setInterval(() => {
+        attempts++;
+        if (typeof google !== 'undefined' && google?.accounts?.id) {
+          clearInterval(interval);
+          setupGoogle();
+        } else if (attempts > 30) {
+          clearInterval(interval);
+        }
+      }, 100);
+    } else {
+      setupGoogle();
     }
   }
 
