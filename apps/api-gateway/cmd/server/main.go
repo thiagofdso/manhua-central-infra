@@ -63,11 +63,19 @@ func main() {
 
 	// Initialize Services & Handlers
 	userRepo := repository.NewPostgresUserRepository(pgDB.DB)
+	canonicalRepo := repository.NewPostgresCanonicalRepository(pgDB.DB)
+
+	// Seed canonical manhuas if empty
+	if err := repository.SeedInitialCanonicalManhuas(context.Background(), canonicalRepo); err != nil {
+		log.Printf("[WARN] Failed to seed initial canonical manhuas: %v", err)
+	}
+
 	jwtService := auth.NewJWTService(jwtSecret, refreshSecret, 15*time.Minute, 7*24*time.Hour)
 	googleVerifier := auth.NewGoogleVerifier(googleClientID)
 	authService := auth.NewAuthService(userRepo, jwtService, googleVerifier)
 	authHandler := handlers.NewAuthHandler(authService)
 	authMiddleware := middleware.NewAuthMiddleware(jwtService)
+	catalogHandler := handlers.NewCatalogHandler(canonicalRepo)
 
 	mux := http.NewServeMux()
 
@@ -83,6 +91,9 @@ func main() {
 	mux.HandleFunc("/api/auth/login", authHandler.Login)
 	mux.HandleFunc("/api/auth/google", authHandler.GoogleAuth)
 	mux.HandleFunc("/api/auth/refresh", authHandler.Refresh)
+
+	// Catalog Endpoints
+	catalogHandler.RegisterRoutes(mux)
 
 	// User Endpoints (Protected)
 	mux.Handle("/api/users/me", authMiddleware.RequireAuth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

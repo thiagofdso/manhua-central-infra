@@ -97,6 +97,9 @@ func TestPostgresMigrationsAndSchema(t *testing.T) {
 	assert.True(t, indexExists, "golden rule index idx_user_library_sort should exist")
 
 	// Test inserting a user and canonical manhua
+	_, _ = pgDB.DB.Exec("DELETE FROM users WHERE email = 'test@example.com'")
+	_, _ = pgDB.DB.Exec("DELETE FROM canonical_manhuas WHERE id = 1001 OR slug = 'solo-leveling'")
+
 	var userID string
 	err = pgDB.DB.QueryRow(`
 		INSERT INTO users (email, display_name, auth_provider, role) 
