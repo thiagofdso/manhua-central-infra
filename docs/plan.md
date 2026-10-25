@@ -388,10 +388,10 @@
 - Modify: `apps/mobile-app/lib/screens/login_screen.dart`
 - Test: `apps/mobile-app/test/services/api_service_auth_test.dart`
 
-- [ ] **Step 1: Escrever teste para login com Google capturando `id_token` e persistindo JWT no `flutter_secure_storage`**
-- [ ] **Step 2: Integrar SDK do Google Sign-In / Credential Manager nativo no Flutter**
-- [ ] **Step 3: Executar testes de autenticação mobile e validar aprovação**
-- [ ] **Step 4: Commit:** `feat(mobile): integrate native google sign-in and secure token storage in flutter`
+- [x] **Step 1: Escrever teste para login com Google capturando `id_token` e persistindo JWT no `flutter_secure_storage`**
+- [x] **Step 2: Integrar SDK do Google Sign-In / Credential Manager nativo no Flutter**
+- [x] **Step 3: Executar testes de autenticação mobile e validar aprovação**
+- [x] **Step 4: Commit:** `feat(mobile): integrate native google sign-in and secure token storage in flutter`
 
 ### Subtarefa 8.2: Telas de Catálogo, Rankings Comunitários e Biblioteca
 **Files:**
@@ -400,22 +400,22 @@
 - Create: `apps/mobile-app/lib/screens/catalog_screen.dart`
 - Test: `apps/mobile-app/test/screens/rankings_screen_test.dart`
 
-- [ ] **Step 1: Escrever teste de widget para exibição de abas de ranking e estrelas de avaliação**
-- [ ] **Step 2: Implementar tela de Rankings dinâmicos consumindo `/api/rankings/views` e `/api/rankings/top-rated`**
-- [ ] **Step 3: Ajustar tela de Biblioteca com `ReorderableListView` segregando rigorosamente obras favoritas no topo**
-- [ ] **Step 4: Executar testes de widgets**
-- [ ] **Step 5: Commit:** `feat(mobile): implement rankings, catalog and reorderable library screens in flutter`
+- [x] **Step 1: Escrever teste de widget para exibição de abas de ranking e estrelas de avaliação**
+- [x] **Step 2: Implementar tela de Rankings dinâmicos consumindo `/api/rankings/views` e `/api/rankings/top-rated`**
+- [x] **Step 3: Ajustar tela de Biblioteca com `ReorderableListView` segregando rigorosamente obras favoritas no topo**
+- [x] **Step 4: Executar testes de widgets**
+- [x] **Step 5: Commit:** `feat(mobile): implement rankings, catalog and reorderable library screens in flutter`
 
 ### Subtarefa 8.3: Leitor com Gestos, Bloqueio no `lastChapter` e Offline-First
 **Files:**
 - Modify: `apps/mobile-app/lib/screens/reader_screen.dart`
 - Test: `apps/mobile-app/test/screens/reader_screen_test.dart`
 
-- [ ] **Step 1: Escrever teste validando bloqueio do gesto de swipe caso `currentChapter >= lastChapter`**
-- [ ] **Step 2: Garantir verificação local obrigatória no FileSystem antes de efetuar chamada HTTP**
-- [ ] **Step 3: Implementar badge visual `"Salvo Localmente / Offline"` e renderização fluida via `Image.file`**
-- [ ] **Step 4: Executar testes e validar aprovação**
-- [ ] **Step 5: Commit:** `feat(mobile): enforce offline-first reading and lastChapter swipe blocking in reader`
+- [x] **Step 1: Escrever teste validando bloqueio do gesto de swipe caso `currentChapter >= lastChapter`**
+- [x] **Step 2: Garantir verificação local obrigatória no FileSystem antes de efetuar chamada HTTP**
+- [x] **Step 3: Implementar badge visual `"Salvo Localmente / Offline"` e renderização fluida via `Image.file`**
+- [x] **Step 4: Executar testes e validar aprovação**
+- [x] **Step 5: Commit:** `feat(mobile): enforce offline-first reading and lastChapter swipe blocking in reader`
 
 ### Subtarefa 8.4: Downloads em Background com Android WorkManager
 **Files:**
@@ -423,11 +423,11 @@
 - Create: `apps/mobile-app/lib/services/background_worker.dart`
 - Test: `apps/mobile-app/test/services/download_manager_background_test.dart`
 
-- [ ] **Step 1: Escrever teste de cancelamento atômico e integridade de arquivos concluídos**
-- [ ] **Step 2: Integrar plugin nativo `workmanager` para manter transferências ativas com o app minimizado**
-- [ ] **Step 3: Criar painel de gerenciamento de espaço em disco (retenção perpétua sem auto-evicção)**
-- [ ] **Step 4: Executar testes de downloads**
-- [ ] **Step 5: Commit:** `feat(mobile): implement android workmanager background downloads and disk management`
+- [x] **Step 1: Escrever teste de cancelamento atômico e integridade de arquivos concluídos**
+- [x] **Step 2: Integrar plugin nativo `workmanager` para manter transferências ativas com o app minimizado**
+- [x] **Step 3: Criar painel de gerenciamento de espaço em disco (retenção perpétua sem auto-evicção)**
+- [x] **Step 4: Executar testes de downloads**
+- [x] **Step 5: Commit:** `feat(mobile): implement android workmanager background downloads and disk management`
 
 ### Subtarefa 8.5: Notificações Push FCM e Exclusão de Conta In-App (Play Store Mandatório)
 **Files:**
@@ -436,13 +436,13 @@
 - Modify: `apps/mobile-app/android/app/build.gradle.kts`
 - Modify: `apps/mobile-app/android/app/src/main/AndroidManifest.xml`
 
-- [ ] **Step 1: Integrar Firebase Cloud Messaging capturando tokens e registrando no backend Go**
-- [ ] **Step 2: Implementar tela de configurações com botão visível de Exclusão de Conta (`DELETE /api/users/me`)**
-- [ ] **Step 3: Remover `usesCleartextTraffic=true` e garantir Target SDK 34+ (Android 14)**
-- [ ] **Step 4: Configurar assinatura oficial de release no Gradle com variáveis seguras**
-- [ ] **Step 5: Executar compilação do Android App Bundle:** `cd apps/mobile-app && flutter build appbundle --release`
-- [ ] **Step 6: Executar `flutter analyze` e `flutter test` garantindo 100% de aprovação**
-- [ ] **Step 7: Commit:** `feat(mobile): implement fcm push, in-app account deletion and release bundle signing`
+- [x] **Step 1: Integrar Firebase Cloud Messaging capturando tokens e registrando no backend Go**
+- [x] **Step 2: Implementar tela de configurações com botão visível de Exclusão de Conta (`DELETE /api/users/me`)**
+- [x] **Step 3: Remover `usesCleartextTraffic=true` e garantir Target SDK 34+ (Android 14)**
+- [x] **Step 4: Configurar assinatura oficial de release no Gradle com variáveis seguras**
+- [x] **Step 5: Executar compilação do Android App Bundle:** `cd apps/mobile-app && flutter build appbundle --release`
+- [x] **Step 6: Executar `flutter analyze` e `flutter test` garantindo 100% de aprovação**
+- [x] **Step 7: Commit:** `feat(mobile): implement fcm push, in-app account deletion and release bundle signing`
 
 ---
 
@@ -457,15 +457,15 @@
 - Create: `.github/workflows/ci.yml`
 - Create: `.github/workflows/build-docker.yml`
 
-- [ ] **Step 1: Criar workflow `ci.yml` cobrindo linting e suítes de testes de Go, Angular e Flutter**
-- [ ] **Step 2: Criar workflow `build-docker.yml` com Docker Buildx para `linux/amd64` e `linux/arm64` com Trivy scan**
-- [ ] **Step 3: Commit:** `ci: configure automated testing and multi-arch docker builds`
+- [x] **Step 1: Criar workflow `ci.yml` cobrindo linting e suítes de testes de Go, Angular e Flutter**
+- [x] **Step 2: Criar workflow `build-docker.yml` com Docker Buildx para `linux/amd64` e `linux/arm64` com Trivy scan**
+- [x] **Step 3: Commit:** `ci: configure automated testing and multi-arch docker builds`
 
 ### Subtarefa 9.2: Workflow de Publicação na Google Play Store
 **Files:**
 - Create: `.github/workflows/release-playstore.yml`
 
-- [ ] **Step 1: Configurar build do `.aab` assinado no GitHub Actions com segredos de Keystore**
-- [ ] **Step 2: Integrar action `r0adkll/upload-google-play` para envio automático na track Internal Testing**
-- [ ] **Step 3: Validar execução da pipeline completa**
-- [ ] **Step 4: Commit:** `ci: add automated google play store release upload workflow`
+- [x] **Step 1: Configurar build do `.aab` assinado no GitHub Actions com segredos de Keystore**
+- [x] **Step 2: Integrar action `r0adkll/upload-google-play` para envio automático na track Internal Testing**
+- [x] **Step 3: Validar execução da pipeline completa**
+- [x] **Step 4: Commit:** `ci: add automated google play store release upload workflow`
