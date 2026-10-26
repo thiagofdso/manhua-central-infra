@@ -58,6 +58,10 @@ down-prod: ## Encerra os contêineres e redes de produção
 
 clean: ## Remove todos os contêineres, redes e volumes persistentes locais
 	docker compose -f deployments/docker-compose.yml down -v
+
+sync-catalog: ## Sincroniza catálogo inicial com obras populares dos provedores externos
+	@echo "Sincronizando catalogo inicial..."
+	@cd apps/api-gateway && DATABASE_URL="postgres://manhua_user:manhua_secure_password_change_me@localhost:5432/manhua_pro?sslmode=disable" PATH=/home/thiagofdso/development/go/bin:$$PATH go run cmd/sync-catalog/main.go
 	docker compose -f deployments/docker-compose.prod.yml down -v
 
 ## ----------------------------------------------------------------------
