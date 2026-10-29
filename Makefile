@@ -1,4 +1,4 @@
-.PHONY: all run stop dev dev-d prod down down-prod clean test test-backend test-workers test-web test-mobile dev-db lint help clone-all pull-all status-all sync-catalog
+.PHONY: all run stop dev dev-d prod down down-prod clean test test-backend test-workers test-web test-mobile dev-db lint help clone-all pull-all status-all sync-catalog funnel funnel-status funnel-off run-mobile-funnel build-apk-funnel
 
 # Default target
 all: help
@@ -68,6 +68,25 @@ clean: ## Remove todos os contêineres, redes e volumes persistentes locais
 sync-catalog: ## Sincroniza catálogo inicial com obras populares dos provedores externos
 	@echo "Sincronizando catalogo inicial..."
 	@cd apps/api-gateway && DATABASE_URL="postgres://manhua_user:manhua_secure_password_change_me@localhost:5432/manhua_pro?sslmode=disable" PATH=/home/thiagofdso/development/go/bin:$$PATH go run cmd/sync-catalog/main.go
+
+## ----------------------------------------------------------------------
+## Testes Remotos e Tailscale Funnel
+## ----------------------------------------------------------------------
+
+funnel: ## Inicia o Tailscale Funnel expondo a API Gateway (porta 8080) com HTTPS público
+	tailscale funnel --bg 8080
+
+funnel-status: ## Exibe o status e a URL pública HTTPS do Tailscale Funnel
+	tailscale funnel status
+
+funnel-off: ## Encerra a exposição pública do Tailscale Funnel
+	tailscale funnel reset
+
+run-mobile-funnel: ## Executa o app Flutter apontando para a API pública HTTPS do Tailscale Funnel
+	cd apps/mobile-app && flutter run --dart-define=API_BASE_URL=https://pop-os.tail75c396.ts.net
+
+build-apk-funnel: ## Gera APK release do Flutter configurado com a API pública do Funnel
+	cd apps/mobile-app && flutter build apk --release --dart-define=API_BASE_URL=https://pop-os.tail75c396.ts.net
 
 ## ----------------------------------------------------------------------
 ## Suítes de Testes por Camada
