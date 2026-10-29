@@ -40,6 +40,7 @@ services:
     build:
       context: ../apps/api-gateway
       dockerfile: Dockerfile
+      network: host
     container_name: manhua-api-dev
     restart: unless-stopped
     ports:
@@ -67,6 +68,7 @@ services:
     build:
       context: ../apps/scraping-workers
       dockerfile: Dockerfile
+      network: host
     container_name: manhua-workers-dev
     restart: unless-stopped
     ports:
@@ -81,6 +83,7 @@ services:
     build:
       context: ../apps/web-client
       dockerfile: Dockerfile.dev
+      network: host
     container_name: manhua-web-dev
     restart: unless-stopped
     ports:
