@@ -1,4 +1,4 @@
-.PHONY: all dev prod down clean test test-backend test-workers test-web test-mobile dev-db lint help clone-all pull-all status-all
+.PHONY: all run dev dev-d prod down down-prod clean test test-backend test-workers test-web test-mobile dev-db lint help clone-all pull-all status-all sync-catalog
 
 # Default target
 all: help
@@ -38,6 +38,9 @@ status-all: ## Exibe o status do Git de cada repositório
 ## Ambientes e Orquestração Docker Compose
 ## ----------------------------------------------------------------------
 
+run: ## Inicia todos os serviços em segundo plano (detached) com Docker Compose
+	docker compose -f deployments/docker-compose.yml up -d --build
+
 dev: ## Inicia o ambiente de desenvolvimento completo com Docker Compose
 	docker compose -f deployments/docker-compose.yml up --build
 
@@ -62,7 +65,6 @@ clean: ## Remove todos os contêineres, redes e volumes persistentes locais
 sync-catalog: ## Sincroniza catálogo inicial com obras populares dos provedores externos
 	@echo "Sincronizando catalogo inicial..."
 	@cd apps/api-gateway && DATABASE_URL="postgres://manhua_user:manhua_secure_password_change_me@localhost:5432/manhua_pro?sslmode=disable" PATH=/home/thiagofdso/development/go/bin:$$PATH go run cmd/sync-catalog/main.go
-	docker compose -f deployments/docker-compose.prod.yml down -v
 
 ## ----------------------------------------------------------------------
 ## Suítes de Testes por Camada
