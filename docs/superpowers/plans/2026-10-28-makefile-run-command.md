@@ -25,7 +25,7 @@
 - Consumes: Arquivo `deployments/docker-compose.yml`
 - Produces: Target `run` executável via `make run`
 
-- [ ] **Step 1: Verificar que o comando `make -n run` atualmente falha**
+- [x] **Step 1: Verificar que o comando `make -n run` atualmente falha**
 
 Run:
 ```bash
@@ -34,7 +34,7 @@ make -n run
 Expected output:
 `make: *** No rule to make target 'run'.  Stop.`
 
-- [ ] **Step 2: Modificar o `Makefile`**
+- [x] **Step 2: Modificar o `Makefile`**
 
 1. Adicionar `run` e `sync-catalog` na linha `.PHONY`:
 ```makefile
@@ -49,7 +49,7 @@ run: ## Inicia todos os serviços em segundo plano (detached) com Docker Compose
 
 3. Remover a linha `docker compose -f deployments/docker-compose.prod.yml down -v` acidental dentro do target `sync-catalog`.
 
-- [ ] **Step 3: Verificar sintaxe e execução simulada (`dry-run`)**
+- [x] **Step 3: Verificar sintaxe e execução simulada (`dry-run`)**
 
 Run:
 ```bash
@@ -65,7 +65,7 @@ make help | grep run
 Expected output:
 Linha exibindo `run` e a descrição `Inicia todos os serviços em segundo plano (detached) com Docker Compose`.
 
-- [ ] **Step 4: Commitar as alterações**
+- [x] **Step 4: Commitar as alterações**
 
 Run:
 ```bash
