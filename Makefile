@@ -1,4 +1,4 @@
-.PHONY: all run dev dev-d prod down down-prod clean test test-backend test-workers test-web test-mobile dev-db lint help clone-all pull-all status-all sync-catalog
+.PHONY: all run stop dev dev-d prod down down-prod clean test test-backend test-workers test-web test-mobile dev-db lint help clone-all pull-all status-all sync-catalog
 
 # Default target
 all: help
@@ -40,6 +40,9 @@ status-all: ## Exibe o status do Git de cada repositório
 
 run: ## Inicia todos os serviços em segundo plano (detached) com Docker Compose
 	docker compose -f deployments/docker-compose.yml up -d --build
+
+stop: ## Encerra e remove todos os contêineres e redes de desenvolvimento
+	docker compose -f deployments/docker-compose.yml down
 
 dev: ## Inicia o ambiente de desenvolvimento completo com Docker Compose
 	docker compose -f deployments/docker-compose.yml up --build
