@@ -113,16 +113,17 @@ Considerando que a API Go (`apps/api-gateway`) roda localmente na porta `8080`:
   sudo tailscale set --operator=$USER
   ```
 
-* **Iniciar o túnel público com terminação HTTPS (porta padrão 443):**
+* **Iniciar o túnel público com terminação HTTPS unificado (Frontend + Backend):**
   Via Makefile:
   ```bash
   make funnel
   ```
-  *(Ou diretamente via CLI: `tailscale funnel --bg 8080`)*
+  *(Esse comando configura o roteamento inteligente: rota `/` aponta para o Frontend Angular na porta `4200` e a rota `/api` aponta para a API Go na porta `8080`).*
 
 * O terminal e o status exibirão a URL pública pronta para uso:
   ```text
-  https://pop-os.tail75c396.ts.net
+  https://pop-os.tail75c396.ts.net/    -> Frontend Web SPA (Angular)
+  https://pop-os.tail75c396.ts.net/api -> API Gateway Core (Go)
   ```
 * **Consultar o status dos túneis ativos:**
   ```bash
