@@ -25,7 +25,7 @@
 - Consumes: Arquivo `deployments/docker-compose.yml`
 - Produces: Target `stop` executável via `make stop`
 
-- [ ] **Step 1: Verificar que o comando `make -n stop` atualmente falha**
+- [x] **Step 1: Verificar que o comando `make -n stop` atualmente falha**
 
 Run:
 ```bash
@@ -34,7 +34,7 @@ make -n stop
 Expected output:
 `make: *** No rule to make target 'stop'.  Stop.`
 
-- [ ] **Step 2: Modificar o `Makefile`**
+- [x] **Step 2: Modificar o `Makefile`**
 
 1. Adicionar `stop` na linha `.PHONY`:
 ```makefile
@@ -47,7 +47,7 @@ stop: ## Encerra e remove todos os contêineres e redes de desenvolvimento
 	docker compose -f deployments/docker-compose.yml down
 ```
 
-- [ ] **Step 3: Verificar sintaxe e execução simulada (`dry-run`)**
+- [x] **Step 3: Verificar sintaxe e execução simulada (`dry-run`)**
 
 Run:
 ```bash
@@ -63,7 +63,7 @@ make help | grep stop
 Expected output:
 Linha exibindo `stop` e a descrição `Encerra e remove todos os contêineres e redes de desenvolvimento`.
 
-- [ ] **Step 4: Commitar as alterações**
+- [x] **Step 4: Commitar as alterações**
 
 Run:
 ```bash
