@@ -73,8 +73,9 @@ sync-catalog: ## Sincroniza catálogo inicial com obras populares dos provedores
 ## Testes Remotos e Tailscale Funnel
 ## ----------------------------------------------------------------------
 
-funnel: ## Inicia o Tailscale Funnel expondo a API Gateway (porta 8080) com HTTPS público
-	tailscale funnel --bg 8080
+funnel: ## Inicia o Tailscale Funnel unificado: Frontend Web (/) e API Gateway (/api) com HTTPS público
+	tailscale funnel --bg --set-path=/ 4200
+	tailscale funnel --bg --set-path=/api http://127.0.0.1:8080/api
 
 funnel-status: ## Exibe o status e a URL pública HTTPS do Tailscale Funnel
 	tailscale funnel status
