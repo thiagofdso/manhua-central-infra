@@ -20,3 +20,5 @@ Este diretório contém o registro formal de todas as decisões arquiteturais to
 | [0010](0010-docker-containerization-distroless-compose.md) | Containerização Total com Docker Multi-Estágio, Imagens Distroless e Docker Compose | **Aceito** | Outubro 2026 |
 | [0011](0011-perpetual-offline-downloads-no-auto-eviction.md) | Política Rígida de Downloads Offline Perpétuos sem Evicção Automática por LRU/TTL | **Aceito** | Outubro 2026 |
 | [0012](0012-polyrepo-workspace-with-local-orchestrator.md) | Adoção de Workspace Polyrepo com Orquestrador Local e Repositórios Remotos Independentes | **Aceito** | Outubro 2026 |
+| [0013](0013-five-star-rating-scale.md) | Adoção de Escala de Avaliação de 1 a 5 Estrelas para Votações Comunitárias | **Aceito** | Outubro 2026 |
+| [0014](0014-catalog-first-search-and-persistent-cover-files.md) | Busca pelo Catálogo Local e Armazenamento de Capas em Volume Persistente | **Aceito** | Outubro 2026 |

@@ -40,6 +40,7 @@ services:
     build:
       context: ../apps/api-gateway
       dockerfile: Dockerfile
+      network: host
     container_name: manhua-api-dev
     restart: unless-stopped
     ports:
@@ -54,7 +55,16 @@ services:
       REFRESH_SECRET: ${REFRESH_SECRET:-super_secret_refresh_jwt_minimum_32_characters_key}
       REFRESH_EXPIRES_IN: 7d
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
-      SCRAPER_WORKER_URL: scraping-workers:50051
+      SCRAPER_WORKER_URL: http://scraping-workers:50051
+      CATALOG_COLLECTOR_URL: ${CATALOG_COLLECTOR_URL:-http://scraping-workers:50051}
+      CATALOG_COLLECTOR_TOKEN: ${CATALOG_COLLECTOR_TOKEN:-}
+      COVERS_DIR: /data/covers
+      COVERS_MAX_BYTES: ${COVERS_MAX_BYTES:-8388608}
+    volumes:
+      - ../apps/api-gateway/.cache:/.cache
+      - covers_data_dev:/data/covers
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       postgres:
         condition: service_healthy
@@ -67,13 +77,19 @@ services:
     build:
       context: ../apps/scraping-workers
       dockerfile: Dockerfile
+      network: host
     container_name: manhua-workers-dev
+    hostname: manhua-workers
     restart: unless-stopped
     ports:
       - "${SCRAPER_PORT:-50051}:50051"
     environment:
       PORT: 50051
       MAX_CONCURRENT_BROWSERS: 3
+      COVER_PROFILES_DIR: /data/cover-profiles
+      COVER_BROWSER_HEADLESS: ${COVER_BROWSER_HEADLESS:-false}
+    volumes:
+      - cover_profiles_dev:/data/cover-profiles
     networks:
       - manhua_dev_net
 
@@ -81,16 +97,22 @@ services:
     build:
       context: ../apps/web-client
       dockerfile: Dockerfile.dev
+      network: host
     container_name: manhua-web-dev
     restart: unless-stopped
     ports:
       - "${WEB_PORT:-4200}:4200"
+    volumes:
+      - ../apps/web-client:/app
+      - /app/node_modules
     depends_on:
       - api-gateway
     networks:
       - manhua_dev_net
 
 volumes:
+  cover_profiles_dev:
+  covers_data_dev:
   postgres_data_dev:
   redis_data_dev:
 

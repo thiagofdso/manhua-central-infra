@@ -74,7 +74,7 @@ Você receberá um endereço IPv4 no formato `100.x.y.z` (fixo e exclusivo da su
 Certifique-se de que a API Go ou Docker Compose está escutando na interface `0.0.0.0` (todas as interfaces) e não apenas `127.0.0.1` (`localhost`).
 * No arquivo de configuração ou ambiente do app mobile (Flutter):
   ```dart
-  const String apiBaseUrl = 'http://100.x.y.z:5000/api';
+  const String apiBaseUrl = 'http://100.84.57.79:8080';
   ```
 
 Enquanto a VPN do Tailscale estiver ativa no celular, o app se comunicará diretamente com o PC através da rede P2P criptografada, furando qualquer CGNAT sem abrir portas no roteador.
@@ -105,32 +105,51 @@ Enquanto a VPN do Tailscale estiver ativa no celular, o app se comunicará diret
 3. Na seção **HTTPS Certificates**, clique em **Enable HTTPS**.
 
 #### Passo 3: Expor a Porta da API Local
-Considerando que a API Go (`apps/api-gateway`) roda localmente na porta `5000`:
+Considerando que a API Go (`apps/api-gateway`) roda localmente na porta `8080`:
 
-* **Iniciar o túnel público com terminação HTTPS (porta padrão 443):**
+* **Configuração de Operador (Recomendado - apenas uma vez):**
+  Para permitir que o comando Tailscale seja executado sem `sudo`:
   ```bash
-  sudo tailscale funnel 5000
+  sudo tailscale set --operator=$USER
   ```
-* O terminal exibirá a URL pública pronta para uso:
+
+* **Iniciar o túnel público com terminação HTTPS unificado (Frontend + Backend):**
+  Via Makefile:
+  ```bash
+  make funnel
+  ```
+  *(Esse comando configura o roteamento inteligente: rota `/` aponta para o Frontend Angular na porta `4200` e a rota `/api` aponta para a API Go na porta `8080`).*
+
+* O terminal e o status exibirão a URL pública pronta para uso:
   ```text
-  https://seu-computador.tailnet-alias.ts.net
+  https://pop-os.tail75c396.ts.net/    -> Frontend Web SPA (Angular)
+  https://pop-os.tail75c396.ts.net/api -> API Gateway Core (Go)
   ```
 * **Consultar o status dos túneis ativos:**
   ```bash
-  tailscale funnel status
+  make funnel-status
+  # ou: tailscale funnel status
   ```
 * **Encerrar a exposição pública após o término dos testes:**
   ```bash
-  tailscale funnel --bg=false off
-  # ou para resetar completamente:
-  tailscale funnel reset
+  make funnel-off
+  # ou: tailscale funnel reset
   ```
 
-#### Configuração no App Mobile (Flutter)
-No arquivo de configuração do app móvel ou variáveis de ambiente de teste:
-```dart
-const String apiBaseUrl = 'https://seu-computador.tailnet-alias.ts.net/api';
-```
+#### Configuração e Execução no App Mobile (Flutter)
+Você pode executar diretamente com hot-reload no celular físico ou gerar a APK de release:
+
+* **Executar no celular conectado via USB ou Wi-Fi (com a URL do Funnel):**
+  ```bash
+  make run-mobile-funnel
+  # ou: cd apps/mobile-app && flutter run --dart-define=API_BASE_URL=https://pop-os.tail75c396.ts.net
+  ```
+* **Gerar APK Release para distribuir e instalar em qualquer aparelho:**
+  ```bash
+  make build-apk-funnel
+  # ou: cd apps/mobile-app && flutter build apk --release --dart-define=API_BASE_URL=https://pop-os.tail75c396.ts.net
+  ```
+
 Como a URL possui certificado TLS válido e confiável emitido pelo Let's Encrypt, **nenhum bloqueio de segurança (*cleartext traffic*) ocorrerá no Android ou iOS**.
 
 ---
@@ -198,15 +217,15 @@ Caso você já mantenha uma VPS com IP público dedicado (ex: Oracle Cloud Free 
 
 ## 5. Mapeamento de Portas do Manhua Manager Pro
 
-Ao subir o ambiente com `make dev` ou `docker compose`, as seguintes portas locais são expostas para roteamento no Tailscale:
+Ao subir o ambiente com `make run`, `make dev` ou `docker compose`, as seguintes portas locais são expostas para roteamento no Tailscale:
 
 | Serviço | Porta Local | Comando Tailscale Funnel para Expor |
 | :--- | :---: | :--- |
-| **API Gateway Core (Go)** | `:5000` | `sudo tailscale funnel 5000` |
-| **Web Client SPA (Angular)** | `:4200` | `sudo tailscale funnel 4200` |
-| **Scraping Workers Pool (Node)** | `:3000` | *(Apenas interno / comunicação direta com o Go)* |
+| **API Gateway Core (Go)** | `:8080` | `make funnel` ou `tailscale funnel --bg 8080` |
+| **Web Client SPA (Angular)** | `:4200` | `tailscale funnel --bg 4200` |
+| **Scraping Workers Pool (Node)** | `:50051` | *(Apenas interno / comunicação gRPC com o Go)* |
 | **PostgreSQL 16** | `:5432` | *(Apenas interno / rede Docker bridge)* |
 | **Redis 7** | `:6379` | *(Apenas interno / rede Docker bridge)* |
 
 > [!NOTE]
-> Para testar o aplicativo **Flutter**, exponha apenas a porta **`:5000`** (API Gateway). Toda a orquestração com PostgreSQL, Redis e scrapers é gerenciada internamente pela API Go.
+> Para testar o aplicativo **Flutter**, exponha apenas a porta **`:8080`** (API Gateway). Toda a orquestração com PostgreSQL, Redis e scrapers é gerenciada internamente pela API Go.

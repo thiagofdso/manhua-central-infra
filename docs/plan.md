@@ -55,12 +55,12 @@
 - Create: `apps/api-gateway/internal/repository/redis.go`
 - Test: `apps/api-gateway/internal/repository/postgres_test.go`
 
-- [ ] **Step 1: Escrever teste de integração com Testcontainers verificando criação do schema inicial**
-- [ ] **Step 2: Executar teste e validar falha**
-- [ ] **Step 3: Criar arquivo SQL de migração com as tabelas `users`, `canonical_manhuas`, `user_libraries`, `user_ratings`, `fcm_device_tokens`**
-- [ ] **Step 4: Implementar clientes `postgres.go` (com `golang-migrate`) e `redis.go`**
-- [ ] **Step 5: Executar testes de repositório e validar aprovação**
-- [ ] **Step 6: Commit:** `feat(db): implement initial postgresql migrations and redis connection pool`
+- [x] **Step 1: Escrever teste de integração com Testcontainers verificando criação do schema inicial**
+- [x] **Step 2: Executar teste e validar falha**
+- [x] **Step 3: Criar arquivo SQL de migração com as tabelas `users`, `canonical_manhuas`, `user_libraries`, `user_ratings`, `fcm_device_tokens`**
+- [x] **Step 4: Implementar clientes `postgres.go` (com `golang-migrate`) e `redis.go`**
+- [x] **Step 5: Executar testes de repositório e validar aprovação**
+- [x] **Step 6: Commit:** `feat(db): implement initial postgresql migrations and redis connection pool`
 
 ---
 
@@ -78,12 +78,12 @@
 - Create: `apps/api-gateway/internal/handlers/auth_handler.go`
 - Test: `apps/api-gateway/internal/auth/auth_test.go`
 
-- [ ] **Step 1: Escrever teste unitário para emissão de JWT e validação de Google ID Token**
-- [ ] **Step 2: Executar teste e validar falha**
-- [ ] **Step 3: Implementar validação criptográfica do Google Token com `google.golang.org/api/idtoken` e Argon2id para senhas**
-- [ ] **Step 4: Implementar rota de exclusão de conta `DELETE /api/users/me` com deleção em cascata**
-- [ ] **Step 5: Validar testes do módulo de autenticação**
-- [ ] **Step 6: Commit:** `feat(auth): implement go jwt service, google oauth validation and account deletion`
+- [x] **Step 1: Escrever teste unitário para emissão de JWT e validação de Google ID Token**
+- [x] **Step 2: Executar teste e validar falha**
+- [x] **Step 3: Implementar validação criptográfica do Google Token com `google.golang.org/api/idtoken` e Argon2id para senhas**
+- [x] **Step 4: Implementar rota de exclusão de conta `DELETE /api/users/me` com deleção em cascata**
+- [x] **Step 5: Validar testes do módulo de autenticação**
+- [x] **Step 6: Commit:** `feat(auth): implement go jwt service, google oauth validation and account deletion`
 
 ### Subtarefa 1.2: Frontend Web — Telas de Login, Cadastro e Perfil (Angular 18+)
 **Files:**
@@ -94,20 +94,20 @@
 - Create: `apps/web-client/src/app/features/profile/profile.component.ts`
 - Test: `apps/web-client/src/app/features/auth/login.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste unitário para o serviço de autenticação e interceptor HTTP de JWT**
-- [ ] **Step 2: Executar teste no Angular e validar falha**
-- [ ] **Step 3: Implementar componentes standalone com Tailwind CSS e botão Google One Tap / GIS**
-- [ ] **Step 4: Implementar tela de perfil com botão de exclusão de conta com modal de confirmação**
-- [ ] **Step 5: Executar testes unitários do Angular e validar aprovação**
-- [ ] **Step 6: Commit:** `feat(web): implement angular login, google one-tap and account deletion views`
+- [x] **Step 1: Escrever teste unitário para o serviço de autenticação e interceptor HTTP de JWT**
+- [x] **Step 2: Executar teste no Angular e validar falha**
+- [x] **Step 3: Implementar componentes standalone com Tailwind CSS e botão Google One Tap / GIS**
+- [x] **Step 4: Implementar tela de perfil com botão de exclusão de conta com modal de confirmação**
+- [x] **Step 5: Executar testes unitários do Angular e validar aprovação**
+- [x] **Step 6: Commit:** `feat(web): implement angular login, google one-tap and account deletion views`
 
 ### Subtarefa 1.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/auth.spec.ts` (Playwright)
 
-- [ ] **Step 1: Escrever teste E2E do fluxo de registro $\rightarrow$ login $\rightarrow$ visualização de perfil $\rightarrow$ exclusão de conta**
-- [ ] **Step 2: Executar teste E2E com Playwright contra os contêineres ativos**
-- [ ] **Step 3: Commit:** `test(e2e): add end-to-end authentication and account deletion test`
+- [x] **Step 1: Escrever teste E2E do fluxo de registro $\rightarrow$ login $\rightarrow$ visualização de perfil $\rightarrow$ exclusão de conta**
+- [x] **Step 2: Executar teste E2E com Playwright contra os contêineres ativos**
+- [x] **Step 3: Commit:** `test(e2e): add end-to-end authentication and account deletion test`
 
 ---
 
@@ -169,32 +169,33 @@
 - Create: `apps/api-gateway/internal/handlers/library_handler.go`
 - Test: `apps/api-gateway/internal/service/library_test.go`
 
-- [ ] **Step 1: Escrever teste unitário validando que favoritos nunca ficam abaixo de não-favoritos e promoção automática**
-- [ ] **Step 2: Implementar endpoints `/api/library` (GET, POST, PATCH, PUT reorder, DELETE)**
-- [ ] **Step 3: Implementar autocorreção de reordenação no backend em `PUT /api/library/reorder`**
-- [ ] **Step 4: Executar testes unitários e de integração**
-- [ ] **Step 5: Commit:** `feat(library): enforce golden rule of favorites and library management in go`
+- [x] **Step 1: Escrever teste unitário validando que favoritos nunca ficam abaixo de não-favoritos e promoção automática**
+- [x] **Step 2: Implementar endpoints `/api/library` (GET, POST, PATCH, PUT reorder, DELETE)**
+- [x] **Step 3: Implementar autocorreção de reordenação no backend em `PUT /api/library/reorder`**
+- [x] **Step 4: Executar testes unitários e de integração**
+- [x] **Step 5: Commit:** `feat(library): enforce golden rule of favorites and library management in go`
 
 ### Subtarefa 3.2: Frontend Web — Biblioteca com Drag-and-Drop e Favoritos (Angular)
 **Files:**
-- Create: `apps/web-client/src/app/features/library/library.service.ts`
+- Create: `apps/web-client/src/app/core/models/library.model.ts`
+- Create: `apps/web-client/src/app/core/services/library.service.ts`
 - Create: `apps/web-client/src/app/features/library/library.component.ts`
-- Create: `apps/web-client/src/app/features/library/components/library-item.component.ts`
+- Test: `apps/web-client/src/app/core/services/library.service.spec.ts`
 - Test: `apps/web-client/src/app/features/library/library.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste de componente validando separação visual de seções "★ Favoritas" e "Todas as Obras"**
-- [ ] **Step 2: Implementar reordenação via Angular CDK (`@angular/cdk/drag-drop`) bloqueando arraste cruzado**
-- [ ] **Step 3: Implementar botão de estrela com alternância instantânea e promoção automática reativa**
-- [ ] **Step 4: Adicionar botão "+ Minha Biblioteca" integrado aos cards do catálogo global**
-- [ ] **Step 5: Validar testes do Angular**
-- [ ] **Step 6: Commit:** `feat(web): implement drag-and-drop personal library with favorites segregation`
+- [x] **Step 1: Escrever teste de componente validando separação visual de seções "★ Favoritas" e "Todas as Obras"**
+- [x] **Step 2: Implementar reordenação via Angular CDK (`@angular/cdk/drag-drop`) bloqueando arraste cruzado**
+- [x] **Step 3: Implementar botão de estrela com alternância instantânea e promoção automática reativa**
+- [x] **Step 4: Adicionar botão "+ Minha Biblioteca" integrado aos cards do catálogo global**
+- [x] **Step 5: Validar testes do Angular**
+- [x] **Step 6: Commit:** `feat(web): implement personal library with drag-and-drop, golden rule and progress stepper (Sprint 3)`
 
 ### Subtarefa 3.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/library.spec.ts`
 
-- [ ] **Step 1: Validar adicionar obra do catálogo $\rightarrow$ favoritar na biblioteca $\rightarrow$ reordenar $\rightarrow$ recarregar página e verificar persistência**
-- [ ] **Step 2: Commit:** `test(e2e): add personal library reordering and favorites persistence test`
+- [x] **Step 1: Validar adicionar obra do catálogo $\rightarrow$ favoritar na biblioteca $\rightarrow$ reordenar $\rightarrow$ recarregar página e verificar persistência**
+- [x] **Step 2: Commit:** `test(e2e): add personal library reordering and favorites persistence test`
 
 ---
 
@@ -210,74 +211,83 @@
 - Create: `apps/api-gateway/internal/proxy/streamer.go`
 - Create: `apps/api-gateway/internal/handlers/reader_handler.go`
 - Test: `apps/api-gateway/internal/proxy/proxy_test.go`
+- Test: `apps/api-gateway/internal/handlers/reader_handler_test.go`
 
-- [ ] **Step 1: Escrever teste unitário bloqueando IPs privados (RFC 1918), loopback e metadados de nuvem**
-- [ ] **Step 2: Implementar streaming `io.Copy` em blocos de 32 KB com headers específicos por domínio (Referer/User-Agent)**
-- [ ] **Step 3: Implementar endpoints `GET /api/reader/chapter-images` e `GET /api/reader/proxy-image`**
-- [ ] **Step 4: Executar testes de proxy e validar aprovação**
-- [ ] **Step 5: Commit:** `feat(proxy): add zero-buffer streaming proxy with strict anti-ssrf guard`
+- [x] **Step 1: Escrever teste unitário bloqueando IPs privados (RFC 1918), loopback e metadados de nuvem**
+- [x] **Step 2: Implementar streaming `io.Copy` em blocos de 32 KB com headers específicos por domínio (Referer/User-Agent)**
+- [x] **Step 3: Implementar endpoints `GET /api/reader/chapter-images` e `GET /api/reader/proxy-image`**
+- [x] **Step 4: Executar testes de proxy e validar aprovação**
+- [x] **Step 5: Commit:** `feat(proxy): add zero-buffer streaming proxy with strict anti-ssrf guard`
 
 ### Subtarefa 4.2: Frontend Web — Leitor Webtoon Contínuo com Virtual Scrolling (Angular)
 **Files:**
-- Create: `apps/web-client/src/app/features/reader/reader.service.ts`
+- Create: `apps/web-client/src/app/core/models/reader.model.ts`
+- Create: `apps/web-client/src/app/core/services/reader.service.ts`
 - Create: `apps/web-client/src/app/features/reader/reader.component.ts`
+- Test: `apps/web-client/src/app/core/services/reader.service.spec.ts`
 - Test: `apps/web-client/src/app/features/reader/reader.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste de rolagem contínua e atalhos de teclado (Setas Esquerda/Direita)**
-- [ ] **Step 2: Implementar Virtual Scrolling (`@angular/cdk/scrolling`) mantendo apenas imagens da viewport no DOM**
-- [ ] **Step 3: Implementar bloqueio visual e desabilitação do botão "Próximo" ao atingir `lastChapter`**
-- [ ] **Step 4: Implementar atualização dinâmica do título da aba (`{Obra} - Cap. {N}`)**
-- [ ] **Step 5: Validar testes do leitor no Angular**
-- [ ] **Step 6: Commit:** `feat(web): implement continuous webtoon reader with virtual scrolling and keyboard shortcuts`
+- [x] **Step 1: Escrever teste de rolagem contínua e atalhos de teclado (Setas Esquerda/Direita)**
+- [x] **Step 2: Implementar Virtual Scrolling e rolagem contínua vertical a 60 fps com lazy-loading**
+- [x] **Step 3: Implementar bloqueio visual e desabilitação do botão "Próximo" ao atingir `lastChapter`**
+- [x] **Step 4: Implementar atualização dinâmica do título da aba (`{Obra} - Cap. {N}`)**
+- [x] **Step 5: Validar testes do leitor no Angular**
+- [x] **Step 6: Commit:** `feat(web): implement continuous webtoon reader with virtual scrolling and keyboard shortcuts`
 
 ### Subtarefa 4.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/reader.spec.ts`
 
-- [ ] **Step 1: Abrir capítulo no leitor $\rightarrow$ verificar imagens renderizadas via proxy $\rightarrow$ avançar capítulo $\rightarrow$ checar bloqueio no lastChapter**
-- [ ] **Step 2: Commit:** `test(e2e): add end-to-end reader navigation and image streaming test`
+- [x] **Step 1: Abrir capítulo no leitor $\rightarrow$ verificar imagens renderizadas via proxy $\rightarrow$ avançar capítulo $\rightarrow$ checar bloqueio no lastChapter**
+- [x] **Step 2: Commit:** `test(e2e): add end-to-end reader navigation and image streaming test`
 
 ---
 
 ## Sprint 5: Votações Comunitárias e Rankings em Tempo Real (Ponta a Ponta)
 
-> **Requisitos:** RN-07, RN-08, ADR-0007  
+> **Requisitos:** RN-07 (1 a 5 estrelas), RN-08, ADR-0007  
 > **User Stories:** US-PRO-COMM-01, US-PRO-COMM-02, US-PRO-COMM-03  
-> **Objetivo:** Implementar o sistema comunitário de avaliação (1-10 estrelas com fórmula Bayesiana) e leaderboards dinâmicos em tempo real no Redis.
+> **Objetivo:** Implementar o sistema comunitário de avaliação (1-5 estrelas com fórmula Bayesiana) e leaderboards dinâmicos em tempo real no Redis.
 
 ### Subtarefa 5.1: Backend Core — Motor de Rankings Redis ZSET e Média Bayesiana
 **Files:**
+- Create: `apps/api-gateway/migrations/000002_adjust_rating_to_5_stars.up.sql`
+- Create: `apps/api-gateway/migrations/000002_adjust_rating_to_5_stars.down.sql`
 - Create: `apps/api-gateway/internal/ranking/calculator.go`
-- Create: `apps/api-gateway/internal/ranking/service.go`
+- Create: `apps/api-gateway/internal/repository/rating_repo.go`
+- Create: `apps/api-gateway/internal/service/ranking_service.go`
 - Create: `apps/api-gateway/internal/handlers/ranking_handler.go`
 - Test: `apps/api-gateway/internal/ranking/ranking_test.go`
+- Test: `apps/api-gateway/internal/handlers/ranking_handler_test.go`
 
-- [ ] **Step 1: Escrever teste unitário para cálculo da Média Bayesiana ($WR$)**
-- [ ] **Step 2: Implementar registro de votos no PostgreSQL com constraint `UNIQUE(user_id, canonical_manhua_id)`**
-- [ ] **Step 3: Implementar comandos Redis Sorted Sets (`ZINCRBY`, `ZADD`, `ZREVRANGE`) e rota de ranking híbrida em 2 etapas**
-- [ ] **Step 4: Implementar worker em background para sincronização periódica de views a cada 15 min e warm-up**
-- [ ] **Step 5: Executar testes e validar aprovação**
-- [ ] **Step 6: Commit:** `feat(ranking): implement bayesian rating calculations and redis zset leaderboards`
+- [x] **Step 1: Escrever teste unitário para cálculo da Média Bayesiana ($WR$ na escala 1-5 estrelas)**
+- [x] **Step 2: Implementar registro de votos no PostgreSQL com constraint `CHECK (score >= 1 AND score <= 5)` e `UNIQUE(user_id, canonical_manhua_id)`**
+- [x] **Step 3: Implementar comandos Redis Sorted Sets (`ZINCRBY`, `ZADD`, `ZREVRANGE`) e rota de ranking híbrida em 2 etapas**
+- [x] **Step 4: Implementar worker em background para sincronização periódica de views a cada 15 min e warm-up**
+- [x] **Step 5: Executar testes e validar aprovação**
+- [x] **Step 6: Commit:** `feat(ranking): implement 5-star bayesian rating calculations and redis zset leaderboards`
 
 ### Subtarefa 5.2: Frontend Web — Telas de Rankings e Avaliação Interativa (Angular)
 **Files:**
-- Create: `apps/web-client/src/app/features/rankings/rankings.service.ts`
+- Create: `apps/web-client/src/app/core/models/ranking.model.ts`
+- Create: `apps/web-client/src/app/core/services/ranking.service.ts`
 - Create: `apps/web-client/src/app/features/rankings/rankings.component.ts`
 - Create: `apps/web-client/src/app/shared/components/star-rating.component.ts`
+- Test: `apps/web-client/src/app/core/services/ranking.service.spec.ts`
 - Test: `apps/web-client/src/app/features/rankings/rankings.component.spec.ts`
 
-- [ ] **Step 1: Escrever teste de componente para alternância de abas "Hoje", "Semana", "Top Geral" e "Melhor Votados"**
-- [ ] **Step 2: Implementar componente reutilizável de votação de 1 a 10 estrelas com feedback imediato**
-- [ ] **Step 3: Renderizar cards de ranking com medalhas (1º, 2º, 3º lugar) e botão rápido de adicionar à biblioteca**
-- [ ] **Step 4: Validar testes do Angular**
-- [ ] **Step 5: Commit:** `feat(web): implement community rankings views and interactive star rating component`
+- [x] **Step 1: Escrever teste de componente para alternância de abas "Hoje", "Semana", "Top Geral" e "Melhor Votados"**
+- [x] **Step 2: Implementar componente reutilizável de votação de 1 a 5 estrelas com feedback imediato**
+- [x] **Step 3: Renderizar cards de ranking com medalhas (1º, 2º, 3º lugar) e botão rápido de adicionar à biblioteca**
+- [x] **Step 4: Validar testes do Angular**
+- [x] **Step 5: Commit:** `feat(web): implement community rankings views and interactive 5-star rating component`
 
 ### Subtarefa 5.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/rankings.spec.ts`
 
-- [ ] **Step 1: Ler capítulo $\rightarrow$ checar incremento no ranking de mais lidos $\rightarrow$ votar com 10 estrelas $\rightarrow$ verificar atualização no ranking de melhor votados**
-- [ ] **Step 2: Commit:** `test(e2e): add views tracking and bayesian rating leaderboard test`
+- [x] **Step 1: Ler capítulo $\rightarrow$ checar incremento no ranking de mais lidos $\rightarrow$ votar com 5 estrelas $\rightarrow$ verificar atualização no ranking de melhor votados**
+- [x] **Step 2: Commit:** `test(e2e): add views tracking and 5-star bayesian rating leaderboard test`
 
 ---
 
@@ -293,11 +303,11 @@
 - Create: `apps/api-gateway/internal/handlers/batch_handler.go`
 - Test: `apps/api-gateway/internal/service/batch_test.go`
 
-- [ ] **Step 1: Escrever teste de validação de teto de `lastChapter` e limite máximo de 50 capítulos por lote**
-- [ ] **Step 2: Implementar extração concorrente com `sync.WaitGroup` e semáforo limitador de conexões**
-- [ ] **Step 3: Tratar falhas parciais por capítulo sem quebrar a resposta JSON do lote**
-- [ ] **Step 4: Executar testes de batch e validar aprovação**
-- [ ] **Step 5: Commit:** `feat(batch): implement bounded concurrent batch chapter extraction with ceiling checks`
+- [x] **Step 1: Escrever teste de validação de teto de `lastChapter` e limite máximo de 50 capítulos por lote**
+- [x] **Step 2: Implementar extração concorrente com `sync.WaitGroup` e semáforo limitador de conexões**
+- [x] **Step 3: Tratar falhas parciais por capítulo sem quebrar a resposta JSON do lote**
+- [x] **Step 4: Executar testes de batch e validar aprovação**
+- [x] **Step 5: Commit:** `feat(batch): implement bounded concurrent batch chapter extraction with ceiling checks`
 
 ### Subtarefa 6.2: Frontend Web — Painel de Background Downloads e IndexedDB (Angular)
 **Files:**
@@ -306,19 +316,19 @@
 - Create: `apps/web-client/src/app/features/downloads/active-downloads-drawer.component.ts`
 - Test: `apps/web-client/src/app/core/services/indexed-db.service.spec.ts`
 
-- [ ] **Step 1: Escrever teste unitário para gravação e recuperação de Blobs binários de imagem no IndexedDB**
-- [ ] **Step 2: Implementar gerenciador de fila com cancelamento atômico via `AbortController`**
-- [ ] **Step 3: Implementar verificação offline-first no leitor: consultar IndexedDB antes de qualquer requisição externa**
-- [ ] **Step 4: Adicionar painel de gerenciamento de disco (exclusão manual por capítulo/obra, sem limpeza automática)**
-- [ ] **Step 5: Validar testes do Angular**
-- [ ] **Step 6: Commit:** `feat(web): implement indexeddb offline storage and background download manager`
+- [x] **Step 1: Escrever teste unitário para gravação e recuperação de Blobs binários de imagem no IndexedDB**
+- [x] **Step 2: Implementar gerenciador de fila com cancelamento atômico via `AbortController`**
+- [x] **Step 3: Implementar verificação offline-first no leitor: consultar IndexedDB antes de qualquer requisição externa**
+- [x] **Step 4: Adicionar painel de gerenciamento de disco (exclusão manual por capítulo/obra, sem limpeza automática)**
+- [x] **Step 5: Validar testes do Angular**
+- [x] **Step 6: Commit:** `feat(web): implement indexeddb offline storage and background download manager`
 
 ### Subtarefa 6.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/offline-downloads.spec.ts`
 
-- [ ] **Step 1: Disparar download de lote $\rightarrow$ verificar progresso $\rightarrow$ cortar conexão de rede (modo offline) $\rightarrow$ abrir leitor e verificar renderização a partir do IndexedDB**
-- [ ] **Step 2: Commit:** `test(e2e): add offline downloads and network-disconnected reading test`
+- [x] **Step 1: Disparar download de lote $\rightarrow$ verificar progresso $\rightarrow$ cortar conexão de rede (modo offline) $\rightarrow$ abrir leitor e verificar renderização a partir do IndexedDB**
+- [x] **Step 2: Commit:** `test(e2e): add offline downloads and network-disconnected reading test`
 
 ---
 
@@ -337,11 +347,11 @@
 - Create: `apps/scraping-workers/src/extractors/manhuaus.ts`
 - Test: `apps/scraping-workers/test/extractors.test.ts`
 
-- [ ] **Step 1: Escrever teste com fixtures gravadas para resolução de VRF no MangaFire e bypass Cloudflare no ManhuaUS**
-- [ ] **Step 2: Implementar daemon Puppeteer reutilizando processo Chromium com contextos isolados e `dumb-init`**
-- [ ] **Step 3: Implementar API interna de extração em `POST /extract-chapter`**
-- [ ] **Step 4: Validar testes do worker pool**
-- [ ] **Step 5: Commit:** `feat(workers): implement persistent puppeteer browser pool and specialized extractors`
+- [x] **Step 1: Escrever teste com fixtures gravadas para resolução de VRF no MangaFire e bypass Cloudflare no ManhuaUS**
+- [x] **Step 2: Implementar daemon Puppeteer reutilizando processo Chromium com contextos isolados e `dumb-init`**
+- [x] **Step 3: Implementar API interna de extração em `POST /extract-chapter`**
+- [x] **Step 4: Validar testes do worker pool**
+- [x] **Step 5: Commit:** `feat(workers): implement persistent puppeteer browser pool and specialized extractors`
 
 ### Subtarefa 7.2: Backend Core & Web — Agendador 23:50 e Central de Notificações
 **Files:**
@@ -350,18 +360,18 @@
 - Create: `apps/web-client/src/app/features/notifications/notification-bell.component.ts`
 - Test: `apps/api-gateway/internal/scheduler/scheduler_test.go`
 
-- [ ] **Step 1: Escrever teste de execução cron das 23:50 com lock transacional no PostgreSQL**
-- [ ] **Step 2: Implementar detecção de novos episódios e criação de notificações com descarte ao ler**
-- [ ] **Step 3: Implementar sino de notificações no cabeçalho do Angular com badge numérico em tempo real**
-- [ ] **Step 4: Executar testes backend e frontend**
-- [ ] **Step 5: Commit:** `feat(notifications): implement 23:50 release scheduler and angular notification bell`
+- [x] **Step 1: Escrever teste de execução cron das 23:50 com lock transacional no PostgreSQL**
+- [x] **Step 2: Implementar detecção de novos episódios e criação de notificações com descarte ao ler**
+- [x] **Step 3: Implementar sino de notificações no cabeçalho do Angular com badge numérico em tempo real**
+- [x] **Step 4: Executar testes backend e frontend**
+- [x] **Step 5: Commit:** `feat(notifications): implement 23:50 release scheduler and angular notification bell`
 
 ### Subtarefa 7.3: Verificação de Integração Ponta a Ponta
 **Files:**
 - Test: `apps/web-client/e2e/notifications.spec.ts`
 
-- [ ] **Step 1: Disparar verificação forçada (`POST /api/routine/run-check`) $\rightarrow$ checar badge de notificação no Angular $\rightarrow$ clicar na notificação e abrir o novo capítulo**
-- [ ] **Step 2: Commit:** `test(e2e): add scheduled releases check and notification dismissal test`
+- [x] **Step 1: Disparar verificação forçada (`POST /api/routine/run-check`) $\rightarrow$ checar badge de notificação no Angular $\rightarrow$ clicar na notificação e abrir o novo capítulo**
+- [x] **Step 2: Commit:** `test(e2e): add scheduled releases check and notification dismissal test`
 
 ---
 
@@ -378,10 +388,10 @@
 - Modify: `apps/mobile-app/lib/screens/login_screen.dart`
 - Test: `apps/mobile-app/test/services/api_service_auth_test.dart`
 
-- [ ] **Step 1: Escrever teste para login com Google capturando `id_token` e persistindo JWT no `flutter_secure_storage`**
-- [ ] **Step 2: Integrar SDK do Google Sign-In / Credential Manager nativo no Flutter**
-- [ ] **Step 3: Executar testes de autenticação mobile e validar aprovação**
-- [ ] **Step 4: Commit:** `feat(mobile): integrate native google sign-in and secure token storage in flutter`
+- [x] **Step 1: Escrever teste para login com Google capturando `id_token` e persistindo JWT no `flutter_secure_storage`**
+- [x] **Step 2: Integrar SDK do Google Sign-In / Credential Manager nativo no Flutter**
+- [x] **Step 3: Executar testes de autenticação mobile e validar aprovação**
+- [x] **Step 4: Commit:** `feat(mobile): integrate native google sign-in and secure token storage in flutter`
 
 ### Subtarefa 8.2: Telas de Catálogo, Rankings Comunitários e Biblioteca
 **Files:**
@@ -390,22 +400,22 @@
 - Create: `apps/mobile-app/lib/screens/catalog_screen.dart`
 - Test: `apps/mobile-app/test/screens/rankings_screen_test.dart`
 
-- [ ] **Step 1: Escrever teste de widget para exibição de abas de ranking e estrelas de avaliação**
-- [ ] **Step 2: Implementar tela de Rankings dinâmicos consumindo `/api/rankings/views` e `/api/rankings/top-rated`**
-- [ ] **Step 3: Ajustar tela de Biblioteca com `ReorderableListView` segregando rigorosamente obras favoritas no topo**
-- [ ] **Step 4: Executar testes de widgets**
-- [ ] **Step 5: Commit:** `feat(mobile): implement rankings, catalog and reorderable library screens in flutter`
+- [x] **Step 1: Escrever teste de widget para exibição de abas de ranking e estrelas de avaliação**
+- [x] **Step 2: Implementar tela de Rankings dinâmicos consumindo `/api/rankings/views` e `/api/rankings/top-rated`**
+- [x] **Step 3: Ajustar tela de Biblioteca com `ReorderableListView` segregando rigorosamente obras favoritas no topo**
+- [x] **Step 4: Executar testes de widgets**
+- [x] **Step 5: Commit:** `feat(mobile): implement rankings, catalog and reorderable library screens in flutter`
 
 ### Subtarefa 8.3: Leitor com Gestos, Bloqueio no `lastChapter` e Offline-First
 **Files:**
 - Modify: `apps/mobile-app/lib/screens/reader_screen.dart`
 - Test: `apps/mobile-app/test/screens/reader_screen_test.dart`
 
-- [ ] **Step 1: Escrever teste validando bloqueio do gesto de swipe caso `currentChapter >= lastChapter`**
-- [ ] **Step 2: Garantir verificação local obrigatória no FileSystem antes de efetuar chamada HTTP**
-- [ ] **Step 3: Implementar badge visual `"Salvo Localmente / Offline"` e renderização fluida via `Image.file`**
-- [ ] **Step 4: Executar testes e validar aprovação**
-- [ ] **Step 5: Commit:** `feat(mobile): enforce offline-first reading and lastChapter swipe blocking in reader`
+- [x] **Step 1: Escrever teste validando bloqueio do gesto de swipe caso `currentChapter >= lastChapter`**
+- [x] **Step 2: Garantir verificação local obrigatória no FileSystem antes de efetuar chamada HTTP**
+- [x] **Step 3: Implementar badge visual `"Salvo Localmente / Offline"` e renderização fluida via `Image.file`**
+- [x] **Step 4: Executar testes e validar aprovação**
+- [x] **Step 5: Commit:** `feat(mobile): enforce offline-first reading and lastChapter swipe blocking in reader`
 
 ### Subtarefa 8.4: Downloads em Background com Android WorkManager
 **Files:**
@@ -413,11 +423,11 @@
 - Create: `apps/mobile-app/lib/services/background_worker.dart`
 - Test: `apps/mobile-app/test/services/download_manager_background_test.dart`
 
-- [ ] **Step 1: Escrever teste de cancelamento atômico e integridade de arquivos concluídos**
-- [ ] **Step 2: Integrar plugin nativo `workmanager` para manter transferências ativas com o app minimizado**
-- [ ] **Step 3: Criar painel de gerenciamento de espaço em disco (retenção perpétua sem auto-evicção)**
-- [ ] **Step 4: Executar testes de downloads**
-- [ ] **Step 5: Commit:** `feat(mobile): implement android workmanager background downloads and disk management`
+- [x] **Step 1: Escrever teste de cancelamento atômico e integridade de arquivos concluídos**
+- [x] **Step 2: Integrar plugin nativo `workmanager` para manter transferências ativas com o app minimizado**
+- [x] **Step 3: Criar painel de gerenciamento de espaço em disco (retenção perpétua sem auto-evicção)**
+- [x] **Step 4: Executar testes de downloads**
+- [x] **Step 5: Commit:** `feat(mobile): implement android workmanager background downloads and disk management`
 
 ### Subtarefa 8.5: Notificações Push FCM e Exclusão de Conta In-App (Play Store Mandatório)
 **Files:**
@@ -426,13 +436,13 @@
 - Modify: `apps/mobile-app/android/app/build.gradle.kts`
 - Modify: `apps/mobile-app/android/app/src/main/AndroidManifest.xml`
 
-- [ ] **Step 1: Integrar Firebase Cloud Messaging capturando tokens e registrando no backend Go**
-- [ ] **Step 2: Implementar tela de configurações com botão visível de Exclusão de Conta (`DELETE /api/users/me`)**
-- [ ] **Step 3: Remover `usesCleartextTraffic=true` e garantir Target SDK 34+ (Android 14)**
-- [ ] **Step 4: Configurar assinatura oficial de release no Gradle com variáveis seguras**
-- [ ] **Step 5: Executar compilação do Android App Bundle:** `cd apps/mobile-app && flutter build appbundle --release`
-- [ ] **Step 6: Executar `flutter analyze` e `flutter test` garantindo 100% de aprovação**
-- [ ] **Step 7: Commit:** `feat(mobile): implement fcm push, in-app account deletion and release bundle signing`
+- [x] **Step 1: Integrar Firebase Cloud Messaging capturando tokens e registrando no backend Go**
+- [x] **Step 2: Implementar tela de configurações com botão visível de Exclusão de Conta (`DELETE /api/users/me`)**
+- [x] **Step 3: Remover `usesCleartextTraffic=true` e garantir Target SDK 34+ (Android 14)**
+- [x] **Step 4: Configurar assinatura oficial de release no Gradle com variáveis seguras**
+- [x] **Step 5: Executar compilação do Android App Bundle:** `cd apps/mobile-app && flutter build appbundle --release`
+- [x] **Step 6: Executar `flutter analyze` e `flutter test` garantindo 100% de aprovação**
+- [x] **Step 7: Commit:** `feat(mobile): implement fcm push, in-app account deletion and release bundle signing`
 
 ---
 
@@ -447,15 +457,15 @@
 - Create: `.github/workflows/ci.yml`
 - Create: `.github/workflows/build-docker.yml`
 
-- [ ] **Step 1: Criar workflow `ci.yml` cobrindo linting e suítes de testes de Go, Angular e Flutter**
-- [ ] **Step 2: Criar workflow `build-docker.yml` com Docker Buildx para `linux/amd64` e `linux/arm64` com Trivy scan**
-- [ ] **Step 3: Commit:** `ci: configure automated testing and multi-arch docker builds`
+- [x] **Step 1: Criar workflow `ci.yml` cobrindo linting e suítes de testes de Go, Angular e Flutter**
+- [x] **Step 2: Criar workflow `build-docker.yml` com Docker Buildx para `linux/amd64` e `linux/arm64` com Trivy scan**
+- [x] **Step 3: Commit:** `ci: configure automated testing and multi-arch docker builds`
 
 ### Subtarefa 9.2: Workflow de Publicação na Google Play Store
 **Files:**
 - Create: `.github/workflows/release-playstore.yml`
 
-- [ ] **Step 1: Configurar build do `.aab` assinado no GitHub Actions com segredos de Keystore**
-- [ ] **Step 2: Integrar action `r0adkll/upload-google-play` para envio automático na track Internal Testing**
-- [ ] **Step 3: Validar execução da pipeline completa**
-- [ ] **Step 4: Commit:** `ci: add automated google play store release upload workflow`
+- [x] **Step 1: Configurar build do `.aab` assinado no GitHub Actions com segredos de Keystore**
+- [x] **Step 2: Integrar action `r0adkll/upload-google-play` para envio automático na track Internal Testing**
+- [x] **Step 3: Validar execução da pipeline completa**
+- [x] **Step 4: Commit:** `ci: add automated google play store release upload workflow`
