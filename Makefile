@@ -39,7 +39,13 @@ status-all: ## Exibe o status do Git de cada repositório
 ## ----------------------------------------------------------------------
 
 run: ## Inicia todos os serviços em segundo plano (detached) com Docker Compose
-	docker compose -f deployments/docker-compose.yml up -d --build
+	docker compose -f deployments/docker-compose.yml up -d --build $(RUN_SERVICES)
+
+collector-install: ## Instala coletor de ManhuaUS e RavenScans no host (sessão gráfica)
+	cd apps/scraping-workers && npm run build && node scripts/install-host-collector.mjs
+
+collector-status: ## Exibe estado do coletor local
+	systemctl --user status manhua-catalog-collector.service --no-pager
 
 stop: ## Encerra e remove todos os contêineres e redes de desenvolvimento
 	docker compose -f deployments/docker-compose.yml down

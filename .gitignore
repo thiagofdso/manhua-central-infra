@@ -26,6 +26,7 @@ GoogleService-Info.plist
 # ------------------------------------------
 # Binaries, Build Outputs & Coverage
 # ------------------------------------------
+.cache/
 bin/
 dist/
 build/
